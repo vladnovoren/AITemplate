@@ -2,9 +2,9 @@
 
 namespace AI.Base
 {
-    public abstract class AGameObjectBasedAAction : AAction
+    public abstract class AGameObjectBasedAction : AAction
     {
-        protected AGameObjectBasedAAction(GameObject gameObject)
+        protected AGameObjectBasedAction(GameObject gameObject)
         {
             _gameObject = gameObject;
         }
