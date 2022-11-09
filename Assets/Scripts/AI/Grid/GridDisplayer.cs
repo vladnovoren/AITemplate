@@ -25,6 +25,7 @@ public class GridDisplayer : MonoBehaviour
     {
         set
         {
+            Unsubscribe();
             _ownerGrid = value;
             OnOwnerChange();
         }
@@ -74,6 +75,12 @@ public class GridDisplayer : MonoBehaviour
         _ownerGrid.CellChanged += OnCellChanged;
         Clear();
         InitTextMeshes();
+    }
+
+    private void Unsubscribe()
+    {
+        if (_ownerGrid != null)
+            _ownerGrid.CellChanged -= OnCellChanged;
     }
 
     private void Clear()

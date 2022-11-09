@@ -1,33 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using AI.Base;
+using AI.Roaming;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
-        _gridDisplayer = gridDisplayerObject.GetComponent<GridDisplayer>();
-        _grid = new Grid(4, 3, 1);
-        _gridDisplayer.OwnerGrid = _grid;
+        var stayState = new State();
+        var followState = new State();
+
+        var timer = new CountDownTimer();
+        var stayAction = new StayAction(enemy, timer, 1.0f, 2.0f);
+
+        var stayToFollowDecision = new StayToFollowDecision(timer);
+        var stayToFollowTransition = new Transition(stayToFollowDecision, followState);
+
+        var followAction = new FollowAction(enemy, 1.0f, 2.0f);
+
+        var followToStayDecision = new FollowToStayDecision(enemy, 0.01f);
+        var followToStayTransition = new Transition(followToStayDecision, stayState);
+
+        stayState.AddAction(stayAction);
+        stayState.AddTransition(stayToFollowTransition);
+
+        followState.AddAction(followAction);
+        followState.AddTransition(followToStayTransition);
+
+        _stateMachine = new StateMachine(stayState);
+        _stateMachine.OnEnter();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            _gridDisplayer.Hide();
-        }
-        else if (Input.GetKeyUp(KeyCode.Return))
-        {
-            _gridDisplayer.Show();
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            _grid[0, 0] = _grid[0, 0] + 1;
-        }
+        _stateMachine.Execute();
     }
 
-    public GameObject gridDisplayerObject;
-    private GridDisplayer _gridDisplayer; 
-    private Grid _grid;
+    [SerializeField] private GameObject enemy;
+    private StateMachine _stateMachine;
 }
