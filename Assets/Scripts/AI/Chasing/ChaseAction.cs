@@ -24,6 +24,8 @@ namespace AI.Chasing
         {
             if (NeedToChangePath())
                 SetDestinationToChased();
+            // Debug.Log("chased position: " + _chased.transform.position);
+            // Debug.Log("current destination: " + _navMeshAgent.destination);
         }
 
         public override void OnExit()
@@ -39,12 +41,12 @@ namespace AI.Chasing
 
         private void SetDestinationToChased()
         {
-            _navMeshAgent.destination = _navMeshAgent.transform.position;
+            _navMeshAgent.destination = _chased.transform.position;
         }
 
         private NavMeshAgent _navMeshAgent;
         private GameObject _chased;
-        
+
         private float _rebuildPathDist;
         private float _sqrRebuildPathDist;
     }

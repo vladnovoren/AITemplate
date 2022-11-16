@@ -2,7 +2,7 @@
 
 namespace AI.Chasing
 {
-    public class ObjectWidth : Component
+    public class ObjectWidth : MonoBehaviour
     {
         public float Value;
     }

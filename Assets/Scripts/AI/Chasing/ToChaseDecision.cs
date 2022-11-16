@@ -3,17 +3,20 @@ using UnityEngine;
 
 namespace AI.Chasing
 {
-    public class ToChaseDecision : AGameObjectBasedDecision
+    public class ToChaseDecision : IDecision
     {
-        public ToChaseDecision(GameObject owner, GameObject chased) : base(owner)
+        public ToChaseDecision(GameObject owner, GameObject chased)
         {
-            _chased = chased;
+            _detector = new ObjectDetector(owner, chased);
         }
 
-        public override bool Decide()
+        public bool Decide()
         {
+            Debug.Log("decides");
+            return _detector.TryDetect();
         }
 
-        private GameObject _chased;
+        private ObjectDetector _detector;
     }
 }
+

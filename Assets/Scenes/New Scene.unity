@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 506525050}
   - component: {fileID: 506525055}
   - component: {fileID: 506525056}
+  - component: {fileID: 506525057}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -257,7 +258,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e9d987b7117a54fb99e5f244afc8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 506525049}
+  enemy: {fileID: 1155151389}
+--- !u!114 &506525057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506525049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c753b337de7a4eaf921dc15c3abab4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
+  angle: 180
 --- !u!1 &880343065
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,8 +301,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1894675957}
   - {fileID: 1314931616}
+  - {fileID: 1894675957}
   - {fileID: 1204109556}
   - {fileID: 1404073346}
   m_Father: {fileID: 0}
@@ -453,6 +468,7 @@ GameObject:
   - component: {fileID: 1155151391}
   - component: {fileID: 1155151390}
   - component: {fileID: 1155151395}
+  - component: {fileID: 1155151396}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -568,6 +584,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &1155151396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155151389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5785a70b64e947e19f2407085dc12e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 0.3
 --- !u!1001 &1204109555
 PrefabInstance:
   m_ObjectHideFlags: 0
