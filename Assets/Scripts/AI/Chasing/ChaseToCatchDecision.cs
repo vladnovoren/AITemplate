@@ -10,7 +10,7 @@ namespace AI.Chasing
     {
         public ChaseToCatchDecision(GameObject persecutor, GameObject victim)
         {
-            _catchSqrRadius = persecutor.GetComponent<Catch>().SqrValue;
+            _catchSqrRadius = persecutor.GetComponent<Catch>().SqrRadius;
             _persecutorAgentTransform = persecutor.GetComponent<NavMeshAgent>()
                                                                     .transform;
             _victimTransform = victim.transform;

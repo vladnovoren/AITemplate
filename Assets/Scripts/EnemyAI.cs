@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
 {
     public void Awake()
     {
-        InitFov();
+        Init();
         _stateMachine = BuildStateMachine();
     }
 
@@ -35,12 +35,28 @@ public class EnemyAI : MonoBehaviour
                                             chaseFragment.Entry);
         roamFragment.AddTransitionToAllStates(roamToChaseTransition);
 
+        var catchFragment = BuildCatchFragment();
+
+        var chaseToCatchDecision = new ChaseToCatchDecision(gameObject, enemy);
+        var chaseToCatchTransition = new Transition(chaseToCatchDecision,
+                                                    catchFragment.Entry);
+
+        var catchToChaseDecision = new ToChaseDecision(gameObject, enemy);
+        var catchToChaseTransition = new Transition(catchToChaseDecision,
+                                                    chaseFragment.Entry);
+
+        chaseFragment.AddTransitionToAllStates(chaseToCatchTransition);
+        catchFragment.AddTransitionToAllStates(catchToChaseTransition);
+
         return new StateMachine(roamFragment.Entry);
     }
 
-    private void InitFov() {
+    private void Init() {
         var fov = gameObject.GetComponent<FieldOfView>();
-        fov.Init(10.0f);
+        fov.Init(3.0f);
+
+        var catchComp = gameObject.GetComponent<Catch>();
+        catchComp.Radius = 2.0f;
     }
 
     private StateMachineFragment BuildRoamFragment()
@@ -80,6 +96,12 @@ public class EnemyAI : MonoBehaviour
         chaseState.AddAction(chaseAction);
 
         return new StateMachineFragment(chaseState);
+    }
+
+    private StateMachineFragment BuildCatchFragment()
+    {
+        var catchState = new State();
+        return new StateMachineFragment(catchState);
     }
 
     [SerializeField] private GameObject enemy;
