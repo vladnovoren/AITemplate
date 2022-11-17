@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace AI.Roaming
 {
-    public class StayAction : AGameObjectBasedAction 
+    public class StayAction : AGameObjectBasedAction
     {
         public StayAction(GameObject gameObject, CountDownTimer timer,
             float minTime, float maxTime) :

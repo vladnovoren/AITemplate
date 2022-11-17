@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
         var roamFragment = BuildRoamFragment();
         var chaseFragment = BuildChaseFragment();
 
-        var roamToChaseDecision = new ToChaseDecision(gameObject, enemy);
+        var roamToChaseDecision = new RoamToChaseDecision(gameObject, enemy);
         var roamToChaseTransition = new Transition(roamToChaseDecision,
                                             chaseFragment.Entry);
         roamFragment.AddTransitionToAllStates(roamToChaseTransition);

@@ -17,8 +17,6 @@ namespace AI.Chasing
         public bool TryDetect()
         {
             var res = CheckRadius();
-            Debug.Log("radius: " + _fov.SqrRadius);
-            Debug.Log("CheckRadius(): " + res);
             return res;
         }
 

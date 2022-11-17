@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AI.Roaming
 {
-    class FollowAction : AGameObjectBasedAction 
+    class FollowAction : AGameObjectBasedAction
     {
         public FollowAction(GameObject gameObject, float minDeltaCoord, float maxDeltaCoord) :
             base(gameObject)
