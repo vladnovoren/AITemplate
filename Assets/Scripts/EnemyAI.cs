@@ -41,7 +41,9 @@ public class EnemyAI : MonoBehaviour
         var chaseToCatchTransition = new Transition(chaseToCatchDecision,
                                                     catchFragment.Entry);
 
-        var catchToChaseDecision = new ToChaseDecision(gameObject, enemy);
+        var catchToChaseDecision = new OppositeDecision(
+                                        new ChaseToCatchDecision(gameObject,
+                                                                    enemy));
         var catchToChaseTransition = new Transition(catchToChaseDecision,
                                                     chaseFragment.Entry);
 
@@ -91,7 +93,7 @@ public class EnemyAI : MonoBehaviour
 
     private StateMachineFragment BuildChaseFragment()
     {
-        var chaseAction = new ChaseAction(gameObject, enemy, 0.5f);
+        var chaseAction = new ChaseAction(gameObject, enemy, 0.05f);
         var chaseState = new State();
         chaseState.AddAction(chaseAction);
 

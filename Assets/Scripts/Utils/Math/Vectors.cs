@@ -1,4 +1,4 @@
 namespace Utils.Math
 {
-    public class 
+//    public class
 }

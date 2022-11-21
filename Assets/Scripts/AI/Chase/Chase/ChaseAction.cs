@@ -1,12 +1,14 @@
 ﻿using AI.Base;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils.Math;
 
 namespace AI.Chasing
 {
     public class ChaseAction : AGameObjectBasedAction
     {
-        public ChaseAction(GameObject owner, GameObject chased, float rebuildPathDist) : base(owner)
+        public ChaseAction(GameObject owner, GameObject chased,
+                            float rebuildPathDist) : base(owner)
         {
             _navMeshAgent = owner.GetComponent<NavMeshAgent>();
             _chased = chased;
@@ -17,15 +19,16 @@ namespace AI.Chasing
 
         public override void OnEnter()
         {
+            Debug.Log("ChaseAction.OnEnter");
             SetDestinationToChased();
+            Debug.Log("DestinationToChase: " + _navMeshAgent.destination);
         }
 
         public override void Execute()
         {
             if (NeedToChangePath())
                 SetDestinationToChased();
-            // Debug.Log("chased position: " + _chased.transform.position);
-            // Debug.Log("current destination: " + _navMeshAgent.destination);
+            Debug.Log("ChaseAction.Execute");
         }
 
         public override void OnExit()
@@ -35,8 +38,9 @@ namespace AI.Chasing
 
         private bool NeedToChangePath()
         {
-            return (_chased.transform.position - _navMeshAgent.destination).sqrMagnitude
-                   >= _sqrRebuildPathDist;
+            return !Points.InOpenBall(_chased.transform.position,
+                                    _navMeshAgent.destination,
+                                    _sqrRebuildPathDist);
         }
 
         private void SetDestinationToChased()
