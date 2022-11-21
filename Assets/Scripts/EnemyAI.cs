@@ -55,7 +55,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Init() {
         var fov = gameObject.GetComponent<FieldOfView>();
-        fov.Init(3.0f);
+        fov.Radius = 6.0f;
 
         var catchComp = gameObject.GetComponent<Catch>();
         catchComp.Radius = 2.0f;

@@ -4,18 +4,22 @@ namespace AI.Chasing
 {
     public class FieldOfView : MonoBehaviour
     {
-        public void Init(float radius)
+        public float Radius
         {
-            this.radius = radius;
-            SqrRadius = radius * radius;
+            get => _radius;
+            set
+            {
+                _radius = value;
+                SqrRadius = value * value;
+            }
         }
-
-        public float radius;
 
         public float SqrRadius
         {
             get;
             private set;
         }
+
+        private float _radius;
     }
 }
