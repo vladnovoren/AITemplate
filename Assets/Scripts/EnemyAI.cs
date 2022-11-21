@@ -93,7 +93,7 @@ public class EnemyAI : MonoBehaviour
 
     private StateMachineFragment BuildChaseFragment()
     {
-        var chaseAction = new ChaseAction(gameObject, enemy, 0.05f);
+        var chaseAction = new ChaseAction(gameObject, enemy, 0.01f);
         var chaseState = new State();
         chaseState.AddAction(chaseAction);
 

@@ -19,16 +19,13 @@ namespace AI.Chasing
 
         public override void OnEnter()
         {
-            Debug.Log("ChaseAction.OnEnter");
             SetDestinationToChased();
-            Debug.Log("DestinationToChase: " + _navMeshAgent.destination);
         }
 
         public override void Execute()
         {
             if (NeedToChangePath())
                 SetDestinationToChased();
-            Debug.Log("ChaseAction.Execute");
         }
 
         public override void OnExit()
