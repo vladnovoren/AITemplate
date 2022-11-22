@@ -19,7 +19,8 @@ public class Grid
         set
         {
             _map[i, j] = value;
-            CellChanged?.Invoke(this, new CellChangedEventArgs(i, j, _map[i, j]));
+            CellChanged?.Invoke(this, new CellChangedEventArgs(
+                                                        i, j, _map[i, j]));
         }
     }
 
@@ -28,6 +29,6 @@ public class Grid
     public int Width { get; private set; } = 0;
     public int Height { get; private set; } = 0;
     public float CellSize { get; private set; } = 0.0f;
-    
+
     private int[,] _map;
 }

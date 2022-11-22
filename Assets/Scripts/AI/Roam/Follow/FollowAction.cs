@@ -6,7 +6,8 @@ namespace AI.Roaming
 {
     class FollowAction : AGameObjectBasedAction
     {
-        public FollowAction(GameObject gameObject, float minDeltaCoord, float maxDeltaCoord) :
+        public FollowAction(GameObject gameObject, float minDeltaCoord,
+                        float maxDeltaCoord) :
             base(gameObject)
         {
             _minDeltaCoord = minDeltaCoord;
