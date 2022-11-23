@@ -6,7 +6,7 @@ namespace AI.Roaming
 {
     class StayToFollowDecision : IDecision
     {
-        public StayToFollowDecision(CountDownTimer timer)
+        public StayToFollowDecision(CountdownTimer timer)
         {
             _timer = timer;
         }
@@ -16,6 +16,6 @@ namespace AI.Roaming
             return _timer.IsDown();
         }
 
-        private CountDownTimer _timer;
+        private CountdownTimer _timer;
     }
 }

@@ -7,7 +7,7 @@ namespace AI.Roaming
 {
     public class StayAction : AGameObjectBasedAction
     {
-        public StayAction(GameObject gameObject, CountDownTimer timer,
+        public StayAction(GameObject gameObject, CountdownTimer timer,
             float minTime, float maxTime) :
             base(gameObject)
         {
@@ -30,6 +30,6 @@ namespace AI.Roaming
         private float _minTime;
         private float _maxTime;
 
-        private CountDownTimer _timer;
+        private CountdownTimer _timer;
     }
 }

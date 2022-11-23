@@ -2,7 +2,7 @@ using UnityEngine;
 using Utils.Time;
 using Lifetime;
 
-namespace AI.Swordsman
+namespace AI.Archer
 {
     public class Fighter
     {
@@ -13,7 +13,7 @@ namespace AI.Swordsman
             _enemy = enemy;
             _enemyHealth = enemy.GetComponent<Health>();
 
-            _sword = owner.GetComponent<Sword>();
+            _arch = owner.GetComponent<Arch>();
             _reloadTime = reloadTime;
             _timer = new CountdownTimer();
             _timer.Restart(0.0f);
@@ -48,7 +48,7 @@ namespace AI.Swordsman
         private GameObject _enemy;
         private Health _enemyHealth;
 
-        private Sword _sword;
+        private Arch _arch;
         private float _reloadTime;
         private CountdownTimer _timer;
     }

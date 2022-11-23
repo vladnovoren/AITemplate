@@ -2,7 +2,7 @@
 
 namespace Utils.Time
 {
-    public class CountDownTimer
+    public class CountdownTimer
     {
         public void Restart(float allottedTime)
         {

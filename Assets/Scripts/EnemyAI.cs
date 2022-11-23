@@ -71,7 +71,7 @@ public class EnemyAI : MonoBehaviour
         var stayState = new State();
         var followState = new State();
 
-        var timer = new CountDownTimer();
+        var timer = new CountdownTimer();
         var stayAction = new StayAction(gameObject, timer, 1.0f, 2.0f);
 
         var stayToFollowDecision = new StayToFollowDecision(timer);
