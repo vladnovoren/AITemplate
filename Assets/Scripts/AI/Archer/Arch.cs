@@ -13,6 +13,8 @@ namespace AI.Archer
             _timer = new CountdownTimer();
             _timer.Restart(0.0f);
 
+            _firePoint = firePoint;
+
             _arrowPrefab = arrowPrefab;
 
             _enemy = enemy;
@@ -30,8 +32,8 @@ namespace AI.Archer
 
         private void SpawnArrow()
         {
-            Instantiate(arrowPrefab, firePoint.position,
-                        LookRotation(firePoint.forward));
+            Object.Instantiate(_arrowPrefab, _firePoint.position,
+                        Quaternion.LookRotation(_firePoint.forward));
         }
 
         private bool CanShoot()
@@ -42,7 +44,7 @@ namespace AI.Archer
         private bool CheckRaycast()
         {
             RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, firePoint.forward,
+            if (Physics.Raycast(_firePoint.position, _firePoint.forward,
                         out hit))
                 if (hit.transform.gameObject == _enemy)
                     return true;
@@ -51,6 +53,8 @@ namespace AI.Archer
 
         private float _reloadTime;
         private CountdownTimer _timer;
+
+        private Transform _firePoint;
 
         private GameObject _arrowPrefab;
 

@@ -15,7 +15,7 @@ namespace AI.Base
         {
             _states.Add(state);
         }
-        
+
         public void AddTransitionToAllStates(Transition transition)
         {
             foreach (var state in _states)

@@ -18,9 +18,9 @@ namespace Lifetime
             _swordDamage = damage;
         }
 
-        public void TakeBowDamage(float damage)
+        public void TakeArchDamage(float damage)
         {
-            _bowDamage = damage;
+            _archDamage = damage;
         }
 
         private bool IsAlive()
@@ -31,7 +31,7 @@ namespace Lifetime
 
         private void UpdateHealth()
         {
-            var deltaHealth = -_swordDamage - _bowDamage;
+            var deltaHealth = -_swordDamage - _archDamage;
             deltaHealth *= ArmorCoeff();
             _health += deltaHealth;
         }
@@ -39,7 +39,7 @@ namespace Lifetime
         private void UpdateArmor()
         {
             _armor -= _swordDamage;
-            _armor -= _bowDamage;
+            _armor -= _archDamage;
         }
 
         private float ArmorCoeff()
@@ -50,13 +50,13 @@ namespace Lifetime
         private void ResetDamage()
         {
             _swordDamage = 0;
-            _bowDamage = 0;
+            _archDamage = 0;
         }
 
         private float _health = 100f;
         private float _armor = 100f;
 
         private float _swordDamage = 0;
-        private float _bowDamage = 0;
+        private float _archDamage = 0;
     }
 }

@@ -6,50 +6,16 @@ namespace AI.Archer
 {
     public class Fighter
     {
-        public Fighter(GameObject owner, GameObject enemy, float reloadTime)
+        public Fighter(Arch arch)
         {
-            _transform = owner.transform;
-
-            _enemy = enemy;
-            _enemyHealth = enemy.GetComponent<Health>();
-
-            _arch = owner.GetComponent<Arch>();
-            _reloadTime = reloadTime;
-            _timer = new CountdownTimer();
-            _timer.Restart(0.0f);
+            _arch = arch;
         }
 
-        public void TryHit()
+        public void TryShoot()
         {
-            if (CanHit())
-            {
-                _enemyHealth.TakeSwordDamage(_sword.Damage);
-                _timer.Restart(_reloadTime);
-            }
+            _arch.TryShoot();
         }
-
-        private bool CanHit()
-        {
-            return _timer.IsDown() && CheckRaycast();
-        }
-
-        private bool CheckRaycast()
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(_transform.position, _transform.forward,
-                                out hit))
-                if (hit.transform.gameObject == _enemy)
-                    return true;
-            return false;
-        }
-
-        private Transform _transform;
-
-        private GameObject _enemy;
-        private Health _enemyHealth;
 
         private Arch _arch;
-        private float _reloadTime;
-        private CountdownTimer _timer;
     }
 }
