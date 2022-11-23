@@ -25,6 +25,7 @@ namespace Lifetime
 
         private bool IsAlive()
         {
+            Debug.Log("_health: " + _health);
             return _health > 0;
         }
 
@@ -32,7 +33,7 @@ namespace Lifetime
         {
             var deltaHealth = -_swordDamage - _bowDamage;
             deltaHealth *= ArmorCoeff();
-            _health -= deltaHealth;
+            _health += deltaHealth;
         }
 
         private void UpdateArmor()
@@ -43,7 +44,7 @@ namespace Lifetime
 
         private float ArmorCoeff()
         {
-            return _armor > 0 ? 0.5f : 1.0f;
+            return (_armor > 0) ? 0.5f : 1.0f;
         }
 
         private void ResetDamage()

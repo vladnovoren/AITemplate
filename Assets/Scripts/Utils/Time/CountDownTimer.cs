@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AI.Base
+namespace Utils.Time
 {
     public class CountDownTimer
     {

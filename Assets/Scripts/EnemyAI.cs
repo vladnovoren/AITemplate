@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using AI;
 using AI.Base;
 using AI.Chasing;
 using AI.Roaming;
@@ -35,20 +36,20 @@ public class EnemyAI : MonoBehaviour
                                             chaseFragment.Entry);
         roamFragment.AddTransitionToAllStates(roamToChaseTransition);
 
-        var catchFragment = BuildCatchFragment();
+        var attackFragment = BuildAttackFragment();
 
-        var chaseToCatchDecision = new ChaseToCatchDecision(gameObject, enemy);
-        var chaseToCatchTransition = new Transition(chaseToCatchDecision,
-                                                    catchFragment.Entry);
+        var chaseToAttackDecision = new ChaseToCatchDecision(gameObject, enemy);
+        var chaseToAttackTransition = new Transition(chaseToAttackDecision,
+                                                    attackFragment.Entry);
 
-        var catchToChaseDecision = new OppositeDecision(
+        var attackToChaseDecision = new OppositeDecision(
                                         new ChaseToCatchDecision(gameObject,
                                                                     enemy));
-        var catchToChaseTransition = new Transition(catchToChaseDecision,
+        var attackToChaseTransition = new Transition(attackToChaseDecision,
                                                     chaseFragment.Entry);
 
-        chaseFragment.AddTransitionToAllStates(chaseToCatchTransition);
-        catchFragment.AddTransitionToAllStates(catchToChaseTransition);
+        chaseFragment.AddTransitionToAllStates(chaseToAttackTransition);
+        attackFragment.AddTransitionToAllStates(attackToChaseTransition);
 
         return new StateMachine(roamFragment.Entry);
     }
@@ -59,6 +60,9 @@ public class EnemyAI : MonoBehaviour
 
         var catchComp = gameObject.GetComponent<Catch>();
         catchComp.Radius = 2.0f;
+
+        var sword = gameObject.GetComponent<Sword>();
+        sword.Damage = 50f;
     }
 
     private StateMachineFragment BuildRoamFragment()
@@ -100,10 +104,13 @@ public class EnemyAI : MonoBehaviour
         return new StateMachineFragment(chaseState);
     }
 
-    private StateMachineFragment BuildCatchFragment()
+    private StateMachineFragment BuildAttackFragment()
     {
-        var catchState = new State();
-        return new StateMachineFragment(catchState);
+        var attackState = new State();
+        attackState.AddAction(new AI.Swordsman.AttackAction(gameObject,
+                                                            enemy));
+
+        return new StateMachineFragment(attackState);
     }
 
     [SerializeField] private GameObject enemy;
