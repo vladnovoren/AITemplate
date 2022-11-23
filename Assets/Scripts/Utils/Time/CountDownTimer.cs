@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-namespace AI.Base
+namespace Utils.Time
 {
-    public class CountDownTimer
+    public class CountdownTimer
     {
         public void Restart(float allottedTime)
         {
             _allotedTime = allottedTime;
-            _startTime = Time.time;
+            _startTime = UnityEngine.Time.time;
             IsStarted = true;
         }
 
@@ -21,7 +21,7 @@ namespace AI.Base
         public bool IsDown()
         {
             if (!IsStarted) return false;
-            return Time.time - _startTime >= _allotedTime;
+            return UnityEngine.Time.time - _startTime >= _allotedTime;
         }
 
         private float _allotedTime;
