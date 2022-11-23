@@ -8,18 +8,24 @@ namespace AI.Swordsman
     {
         public Fighter(GameObject owner, GameObject enemy, float reloadTime)
         {
+            _transform = owner.transform;
+
+            _enemy = enemy;
+            _enemyHealth = enemy.GetComponent<Health>();
+
+            _sword = owner.GetComponent<Sword>();
+            _reloadTime = reloadTime;
             _timer = new CountDownTimer();
             _timer.Restart(0.0f);
-            _sword = gameObject.GetComponent<Sword>();
-            _enemyHealth = enemy.GetComponent<Health>();
         }
 
         public void TryHit()
         {
+            Debug.Log("Tries to hit");
             if (CanHit())
             {
                 _enemyHealth.TakeSwordDamage(_sword.Damage);
-                _timer.Restart();
+                _timer.Restart(_reloadTime);
             }
         }
 

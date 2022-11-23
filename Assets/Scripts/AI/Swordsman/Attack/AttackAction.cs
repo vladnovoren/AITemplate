@@ -4,21 +4,18 @@ using AI.Base;
 
 namespace AI.Swordsman
 {
-    public class AttackAction : AGameObjectBasedAction
+    public class AttackAction : AAction
     {
-        public AttackAction(GameObject gameObject, GameObject enemy) :
-            base(gameObject)
+        public AttackAction(Fighter fighter)
         {
-            _enemyHealth = enemy.GetComponent<Health>();
-            _sword = gameObject.GetComponent<Sword>();
+            _fighter = fighter;
         }
 
         public override void Execute()
         {
-            _enemyHealth.TakeSwordDamage(_sword.Damage);
+            _fighter.TryHit();
         }
 
-        private Health _enemyHealth;
-        private Sword _sword;
+        private Fighter _fighter;
     }
 }

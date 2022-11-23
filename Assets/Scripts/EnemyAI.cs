@@ -7,6 +7,7 @@ using AI;
 using AI.Base;
 using AI.Chasing;
 using AI.Roaming;
+using Utils.Time;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -106,9 +107,10 @@ public class EnemyAI : MonoBehaviour
 
     private StateMachineFragment BuildAttackFragment()
     {
+        var fighter = new AI.Swordsman.Fighter(gameObject, enemy, 0.5f);
+
         var attackState = new State();
-        attackState.AddAction(new AI.Swordsman.AttackAction(gameObject,
-                                                            enemy));
+        attackState.AddAction(new AI.Swordsman.AttackAction(fighter));
 
         return new StateMachineFragment(attackState);
     }
