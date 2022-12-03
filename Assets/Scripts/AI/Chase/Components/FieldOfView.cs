@@ -1,25 +1,8 @@
-﻿using UnityEngine;
+﻿using Utils.Math.Components;
 
 namespace AI.Chasing
 {
-    public class FieldOfView : MonoBehaviour
+    public class FieldOfView : Radius
     {
-        public float Radius
-        {
-            get => _radius;
-            set
-            {
-                _radius = value;
-                SqrRadius = value * value;
-            }
-        }
-
-        public float SqrRadius
-        {
-            get;
-            private set;
-        }
-
-        private float _radius;
     }
 }

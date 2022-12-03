@@ -43,9 +43,8 @@ namespace AI.Archer
 
         private bool CheckRaycast()
         {
-            RaycastHit hit;
             if (Physics.Raycast(_firePoint.position, _firePoint.forward,
-                        out hit))
+                        out RaycastHit hit))
                 if (hit.transform.gameObject == _enemy)
                     return true;
             return false;

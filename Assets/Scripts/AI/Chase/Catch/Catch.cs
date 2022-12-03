@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 using AI.Base;
+using UnityEngine;
 
 namespace AI.Chasing
 {

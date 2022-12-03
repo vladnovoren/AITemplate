@@ -1,6 +1,5 @@
-﻿using System;
-using UnityEngine;
-using static System.Math;
+﻿using UnityEngine;
+using Utils.Math;
 
 namespace AI.Chasing
 {
@@ -22,8 +21,9 @@ namespace AI.Chasing
 
         private bool CheckRadius()
         {
-            return (_victim.transform.position - _persecutor.transform.position).sqrMagnitude
-                   <= _fov.SqrRadius;
+            return Points.InOpenBall(_victim.transform.position,
+                                        _persecutor.transform.position,
+                                        _fov.SqrValue);
         }
 
         private uint _raysAmount;
