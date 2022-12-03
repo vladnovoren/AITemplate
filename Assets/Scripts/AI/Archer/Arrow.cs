@@ -10,11 +10,22 @@ namespace AI.Archer
             _enemyHealth = enemy.GetComponent<Health>();
         }
 
+        private void Update()
+        {
+            Move();
+        }
+
+        private void Move()
+        {
+            transform.position += transform.forward * Time.deltaTime;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.transform.gameObject == enemy)
+            var otherGameObject = other.gameObject;
+            if (otherGameObject.GetComponent<PlayerTag>() != null)
             {
-                _enemyHealth.TakeArchDamage(_damage);
+                otherGameObject.GetComponent<Health>().TakeArchDamage(_damage);
             }
             Destroy(gameObject);
         }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using Utils.Time;
-using Lifetime;
 
 namespace AI.Archer
 {
@@ -50,14 +49,14 @@ namespace AI.Archer
             return false;
         }
 
-        private float _reloadTime;
-        private CountdownTimer _timer;
+        private readonly float _reloadTime;
+        private readonly CountdownTimer _timer;
 
-        private Transform _firePoint;
+        private readonly Transform _firePoint;
 
-        private GameObject _arrowPrefab;
+        private readonly GameObject _arrowPrefab;
 
-        private GameObject _enemy;
-        private Transform _enemyTransform;
+        private readonly GameObject _enemy;
+        private readonly Transform _enemyTransform;
     }
 }

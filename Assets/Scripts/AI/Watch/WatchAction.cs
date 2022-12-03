@@ -13,7 +13,6 @@ namespace AI.Watch
 
         public override void Execute()
         {
-            Debug.Log("smotrit");
             _ownerTransform.LookAt(_enemyTransform);
         }
 
@@ -21,4 +20,3 @@ namespace AI.Watch
         private readonly Transform _enemyTransform;
     }
 }
-

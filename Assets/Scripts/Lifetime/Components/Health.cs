@@ -25,7 +25,6 @@ namespace Lifetime
 
         private bool IsAlive()
         {
-            Debug.Log("_health: " + _health);
             return _health > 0;
         }
 
