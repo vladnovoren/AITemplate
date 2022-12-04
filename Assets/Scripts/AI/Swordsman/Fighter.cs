@@ -1,6 +1,7 @@
 using UnityEngine;
 using Utils.Time;
 using Lifetime;
+using Utils.Math;
 
 namespace AI.Swordsman
 {
@@ -35,17 +36,13 @@ namespace AI.Swordsman
 
         private bool CheckRaycast()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(_transform.position, _transform.forward,
-                                out hit))
-                if (hit.transform.gameObject == _enemy)
-                    return true;
-            return false;
+            return Points.CheckRaycast(_transform, _enemyTransform);
         }
 
         private Transform _transform;
 
         private GameObject _enemy;
+        private Transform _enemyTransform;
         private Health _enemyHealth;
 
         private Sword _sword;

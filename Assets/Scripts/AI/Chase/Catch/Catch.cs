@@ -1,27 +1,8 @@
-using AI.Base;
-using UnityEngine;
+using Utils.Math.Components;
 
 namespace AI.Chasing
 {
-    public class Catch : MonoBehaviour
+    public class Catch : Radius
     {
-        public float Radius
-        {
-            get => _radius;
-            set
-            {
-                _radius = value;
-                SqrRadius = value * value;
-            }
-        }
-
-        public float SqrRadius
-        {
-            get;
-            private set;
-        }
-
-        private float _radius;
     }
 }
-

@@ -1,6 +1,5 @@
 ﻿using AI.Base;
 using UnityEngine;
-using UnityEngine.AI;
 using Utils.Time;
 
 namespace AI.Roaming

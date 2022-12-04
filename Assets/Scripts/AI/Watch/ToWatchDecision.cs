@@ -11,19 +11,19 @@ namespace AI.Watch
             _ownerTransform = owner.transform;
             _enemyTransform = enemy.transform;
 
-            _ownerWatchDistance = owner.GetComponent<WatchDistance>();
+            _ownerWatchDistance = owner.GetComponent<AI.Chasing.FieldOfView>();
         }
 
         public bool Decide()
         {
             return Points.InOpenBall(_ownerTransform.position,
-                                        _enemyTransform.position,
-                                        _ownerWatchDistance.SqrValue);
+                                     _enemyTransform.position,
+                                     _ownerWatchDistance.SqrValue);
         }
 
         private readonly Transform _ownerTransform;
         private readonly Transform _enemyTransform;
 
-        private readonly WatchDistance  _ownerWatchDistance;
+        private readonly AI.Chasing.FieldOfView  _ownerWatchDistance;
     }
 }

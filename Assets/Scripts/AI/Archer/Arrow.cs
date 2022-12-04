@@ -17,7 +17,7 @@ namespace AI.Archer
 
         private void Move()
         {
-            transform.position += transform.forward * Time.deltaTime;
+            transform.position += _speed * transform.forward * Time.deltaTime;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -33,6 +33,7 @@ namespace AI.Archer
         [SerializeField] private GameObject enemy;
         private Health _enemyHealth;
 
-        private float _damage = 30.0f;
+        private float _damage = 50.0f;
+        private float _speed = 15.0f;
     }
 }

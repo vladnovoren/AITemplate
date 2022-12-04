@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using AI.Base;
@@ -7,21 +5,20 @@ using Utils.Math;
 
 namespace AI.Chasing
 {
-    public class ChaseToCatchDecision : IDecision
+    public class ToCatchDecision : IDecision
     {
-        public ChaseToCatchDecision(GameObject persecutor, GameObject victim)
+        public ToCatchDecision(GameObject persecutor, GameObject victim)
         {
             _persecutorCatch = persecutor.GetComponent<Catch>();
-            _persecutorAgentTransform = persecutor.GetComponent<NavMeshAgent>()
-                                                                    .transform;
+            _persecutorAgentTransform = persecutor.GetComponent<NavMeshAgent>().transform;
             _victimTransform = victim.transform;
         }
 
         public bool Decide()
         {
             return Points.InOpenBall(_victimTransform.position,
-                    _persecutorAgentTransform.position,
-                    _persecutorCatch.SqrRadius);
+                                     _persecutorAgentTransform.position,
+                                     _persecutorCatch.SqrValue);
         }
 
         private Catch _persecutorCatch;

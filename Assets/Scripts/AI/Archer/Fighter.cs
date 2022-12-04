@@ -1,7 +1,3 @@
-using UnityEngine;
-using Utils.Time;
-using Lifetime;
-
 namespace AI.Archer
 {
     public class Fighter

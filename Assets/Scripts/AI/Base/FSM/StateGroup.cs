@@ -2,9 +2,9 @@
 
 namespace AI.Base
 {
-    public class StateMachineFragment
+    public class StateGroup
     {
-        public StateMachineFragment(State entry)
+        public StateGroup(State entry)
         {
             Entry = entry;
             _states = new List<State>();
@@ -22,16 +22,16 @@ namespace AI.Base
                 state.AddTransition(transition);
         }
 
-        public static StateMachineFragment Merge(StateMachineFragment fragment1,
-            StateMachineFragment fragment2, State entry)
+        public static StateGroup Merge(StateGroup fragment1,
+            StateGroup fragment2, State entry)
         {
-            var result = new StateMachineFragment(entry);
+            var result = new StateGroup(entry);
             MergeCore(result, fragment1);
             MergeCore(result, fragment2);
             return result;
         }
 
-        private static void MergeCore(StateMachineFragment result, StateMachineFragment operand)
+        private static void MergeCore(StateGroup result, StateGroup operand)
         {
              foreach (var state in operand._states)
                 result.AddState(state);           

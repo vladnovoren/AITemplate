@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace AI.Chasing
 {
-    public class RoamToChaseDecision : IDecision
+    public class ToChaseDecision : IDecision
     {
-        public RoamToChaseDecision(GameObject owner, GameObject chased)
+        public ToChaseDecision(GameObject owner, GameObject chased)
         {
             _detector = new ObjectDetector(owner, chased);
         }
@@ -18,4 +18,3 @@ namespace AI.Chasing
         private ObjectDetector _detector;
     }
 }
-

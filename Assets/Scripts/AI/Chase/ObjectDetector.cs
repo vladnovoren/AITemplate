@@ -9,28 +9,35 @@ namespace AI.Chasing
         {
             _persecutor = persecutor;
             _fov = persecutor.GetComponent<FieldOfView>();
+            _persecutorTransform = persecutor.transform;
 
             _victim = victim;
+            _victimTransform = victim.transform;
         }
 
         public bool TryDetect()
         {
-            var res = CheckRadius();
-            return res;
+            return CheckRadius() && CheckRays();
         }
 
         private bool CheckRadius()
         {
-            return Points.InOpenBall(_victim.transform.position,
-                                        _persecutor.transform.position,
-                                        _fov.SqrValue);
+            return Points.InOpenBall(_victimTransform.position,
+                                     _persecutorTransform.position,
+                                     _fov.SqrValue);
         }
 
-        private uint _raysAmount;
+        private bool CheckRays()
+        {
+            return Points.CheckRaycast(_persecutorTransform, _victimTransform);
+        }
 
-        private GameObject _persecutor;
-        private FieldOfView _fov;
+        private readonly GameObject _persecutor;
+        private readonly FieldOfView _fov;
 
-        private GameObject _victim;
+        private readonly Transform _persecutorTransform;
+        private readonly Transform _victimTransform;
+
+        private readonly GameObject _victim;
     }
 }

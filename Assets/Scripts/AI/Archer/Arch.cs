@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils.Math;
 using Utils.Time;
 
 namespace AI.Archer
@@ -32,7 +33,7 @@ namespace AI.Archer
         private void SpawnArrow()
         {
             Object.Instantiate(_arrowPrefab, _firePoint.position,
-                        Quaternion.LookRotation(_firePoint.forward));
+                               Quaternion.LookRotation(_firePoint.forward));
         }
 
         private bool CanShoot()
@@ -42,11 +43,7 @@ namespace AI.Archer
 
         private bool CheckRaycast()
         {
-            if (Physics.Raycast(_firePoint.position, _firePoint.forward,
-                        out RaycastHit hit))
-                if (hit.transform.gameObject == _enemy)
-                    return true;
-            return false;
+            return Points.CheckRaycast(_firePoint, _enemyTransform);
         }
 
         private readonly float _reloadTime;

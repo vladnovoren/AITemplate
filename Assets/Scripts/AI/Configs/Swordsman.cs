@@ -39,19 +39,19 @@ namespace AI.Configs
             var roamFragment = BuildRoamFragment();
             var chaseFragment = BuildChaseFragment();
 
-            var roamToChaseDecision = new RoamToChaseDecision(gameObject, enemy);
+            var roamToChaseDecision = new ToChaseDecision(gameObject, enemy);
             var roamToChaseTransition = new Transition(roamToChaseDecision,
                                                 chaseFragment.Entry);
             roamFragment.AddTransitionToAllStates(roamToChaseTransition);
 
             var attackFragment = BuildAttackFragment();
 
-            var chaseToAttackDecision = new ChaseToCatchDecision(gameObject, enemy);
+            var chaseToAttackDecision = new ToCatchDecision(gameObject, enemy);
             var chaseToAttackTransition = new Transition(chaseToAttackDecision,
                                                         attackFragment.Entry);
 
             var attackToChaseDecision = new OppositeDecision(
-                                            new ChaseToCatchDecision(gameObject,
+                                            new ToCatchDecision(gameObject,
                                                                         enemy));
             var attackToChaseTransition = new Transition(attackToChaseDecision,
                                                         chaseFragment.Entry);
@@ -76,7 +76,7 @@ namespace AI.Configs
             watchDistance.Value = 2.0f;
         }
 
-        private StateMachineFragment BuildRoamFragment()
+        private StateGroup BuildRoamFragment()
         {
             var stayState = new State();
             var followState = new State();
@@ -100,32 +100,35 @@ namespace AI.Configs
             followState.AddAction(followAction);
             followState.AddTransition(followToStayTransition);
 
-            _roamingFragment = new StateMachineFragment(stayState);
+            _roamingFragment = new StateGroup(stayState);
             _roamingFragment.AddState(followState);
 
             return _roamingFragment;
         }
 
-        private StateMachineFragment BuildChaseFragment()
+        private StateGroup BuildChaseFragment()
         {
             var chaseAction = new ChaseAction(gameObject, enemy, 0.01f);
             var chaseState = new State();
             chaseState.AddAction(chaseAction);
     
-            return new StateMachineFragment(chaseState);
+            return new StateGroup(chaseState);
         }
     
-        private StateMachineFragment BuildAttackFragment()
+        private StateGroup BuildAttackFragment()
         {
             var fighter = new AI.Swordsman.Fighter(gameObject, enemy, 0.5f);
     
             var attackState = new State();
             attackState.AddAction(new AI.Swordsman.AttackAction(fighter));
+
+            var idleState = new State();
+
     
-            return new StateMachineFragment(attackState);
+            return new StateGroup(attackState);
         }
 
-        private StateMachineFragment BuildWatchFragment()
+        private StateGroup BuildWatchFragment()
         {
             var watchState = new State();
             var watchAction = new WatchAction(gameObject, enemy);
@@ -141,13 +144,14 @@ namespace AI.Configs
                                                     idleState);
             watchState.AddTransition(toIdleTransition);
 
-            return new StateMachineFragment(idleState);
+            return new StateGroup(idleState);
         }
 
         [SerializeField] private GameObject enemy;
     
         private StateMachine _mainStateMachine;
         private StateMachine _watchStateMachine;
-        private StateMachineFragment _roamingFragment;
+        private StateMachine _attackStateMachine;
+        private StateGroup _roamingFragment;
     }
 }
