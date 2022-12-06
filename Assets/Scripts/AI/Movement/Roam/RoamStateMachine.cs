@@ -6,16 +6,17 @@ namespace AI.Movement.Roam
 {
     public class RoamStateMachine : StateMachine
     {
-        public RoamStateMachine(GameObject agent) => _agent = agent;
-
-        public void Build()
+        public RoamStateMachine(GameObject agent)
         {
+            _agent = agent;
             BuildStayState();
             BuildFollowState();
-            Entry = StayState;
             BuildFollowToStayTransition();
             BuildStayToFollowTransition();
         }
+
+        public State StayState { get; private set; }
+        public State FollowState { get; private set; }
 
         private void BuildStayState()
         {
@@ -24,6 +25,7 @@ namespace AI.Movement.Roam
             var stayAction = new StayAction(_agent, _timer, 1.0f, 2.0f);
             StayState.AddAction(stayAction);
             AddState(StayState);
+            Entry = StayState;
         }
 
         private void BuildFollowState()
@@ -51,8 +53,6 @@ namespace AI.Movement.Roam
         }
 
         private CountdownTimer _timer;
-        public State StayState { get; private set; }
-        public State FollowState { get; private set; }
 
         private GameObject _agent;
     }

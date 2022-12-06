@@ -53,52 +53,8 @@ namespace AI.Configs
             return new StateMachine(roamGroup.Entry);
         }
 
-        private StateGroup BuildRoamGroup()
-        {
-            var stayState = new State();
-            var followState = new State();
-
-            var timer = new CountdownTimer();
-            var stayAction = new StayAction(gameObject, timer, 1.0f, 2.0f);
-
-            var stayToFollowDecision = new StayToFollowDecision(timer);
-            var stayToFollowTransition = new Transition(stayToFollowDecision,
-                                                followState);
-
-            var followAction = new FollowAction(gameObject, 1.0f, 2.0f);
-
-            var followToStayDecision = new FollowToStayDecision(gameObject, 0.01f);
-            var followToStayTransition = new Transition(followToStayDecision,
-                                                stayState);
-
-            stayState.AddAction(stayAction);
-            stayState.AddTransition(stayToFollowTransition);
-
-            followState.AddAction(followAction);
-            followState.AddTransition(followToStayTransition);
-
-            _roamingGroup = new StateGroup(stayState);
-            _roamingGroup.AddState(followState);
-
-            return _roamingGroup;
-        }
-
         private StateGroup BuildChaseGroup()
         {
-            var chaseAction = new ChaseAction(gameObject, enemy, 0.01f);
-            var chaseState = new State();
-            chaseState.AddAction(chaseAction);
-
-            var catchState = new State();
-            var toCatchDecision = new ToCatchDecision(gameObject, enemy);
-            var toCatchTransition = new Transition(toCatchDecision, catchState);
-            chaseState.AddTransition(toCatchTransition);
-
-            var catchToChaseDecision = new OppositeDecision(toCatchDecision);
-            var catchToChaseTransition = new Transition(catchToChaseDecision, chaseState);
-            catchState.AddTransition(catchToChaseTransition);
-
-            return new StateGroup(chaseState);
         }
 
         private StateMachine BuildWatchStateMachine()
