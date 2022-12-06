@@ -8,7 +8,7 @@ namespace AI.Movement.Chase
     public class ChaseAction : AGameObjectBasedAction
     {
         public ChaseAction(GameObject owner, GameObject chased,
-                            float rebuildPathDist) : base(owner)
+                           float rebuildPathDist) : base(owner)
         {
             _navMeshAgent = owner.GetComponent<NavMeshAgent>();
             _chased = chased;
@@ -36,8 +36,8 @@ namespace AI.Movement.Chase
         private bool NeedToChangePath()
         {
             return !Points.InOpenBall(_chased.transform.position,
-                                    _navMeshAgent.destination,
-                                    _sqrRebuildPathDist);
+                                      _navMeshAgent.destination,
+                                      _sqrRebuildPathDist);
         }
 
         private void SetDestinationToChased()
