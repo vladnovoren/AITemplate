@@ -1,34 +1,39 @@
-﻿namespace AI.Base
+﻿using System.Collections.Generic;
+
+namespace AI.Base
 {
     public class StateMachine
     {
-        public StateMachine(State initState)
+        public void AddState(State state)
         {
-            CurrentState = initState;
+            _states.Add(state);
         }
 
-        public void ChangeState(State newState)
+        public State Entry { get; set; }
+
+        public void AddTransitionToAllStates(Transition transition)
         {
-            CurrentState.OnExit();
-            CurrentState = newState;
-            CurrentState.OnEnter();
+            foreach (var state in _states)
+                state.AddTransition(transition);
+            AddState(transition.TrueState);
         }
 
-        public void OnEnter()
+        public static StateMachine Merge(StateMachine stateMachine1, StateMachine stateMachine2,
+                                         State entryState)
         {
-            CurrentState.OnEnter();
+            var result = new StateMachine();
+            MergeCore(result, stateMachine1);
+            MergeCore(result, stateMachine2);
+            result.Entry = entryState;
+            return result;
         }
 
-        public void Execute()
+        private static void MergeCore(StateMachine result, StateMachine operand)
         {
-            CurrentState.Execute(this);
+             foreach (var state in operand._states)
+                result.AddState(state);           
         }
 
-        public void OnExit()
-        {
-            CurrentState.OnExit();
-        }
-
-        public State CurrentState { get; private set; }
+        private readonly List<State> _states;
     }
 }
