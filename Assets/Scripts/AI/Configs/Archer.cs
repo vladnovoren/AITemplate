@@ -1,9 +1,10 @@
 using UnityEngine;
 using AI.Base;
-using AI.Chasing;
-using AI.Roaming;
 using Utils.Time;
 using AI.Watch;
+using AI.Movement.Chase;
+using AI.Movement.Roam;
+using AI.Fighting.Archer;
 
 namespace AI.Configs
 {
@@ -12,59 +13,44 @@ namespace AI.Configs
         public void Awake()
         {
             Init();
-            _mainStateMachine = BuildMainStateMachine();
+            _mainStateMachine = BuildRoamStateMachine();
             _watchStateMachine = BuildWatchStateMachine();
+            _attackStateMachine = BuildAttackStateMachine();
         }
 
         private void Start()
         {
             _mainStateMachine.OnEnter();
             _watchStateMachine.OnEnter();
+            _attackStateMachine.OnEnter();
         }
 
         private void Update()
         {
             _mainStateMachine.Execute();
             _watchStateMachine.Execute();
-        }
-
-        private StateMachine BuildMainStateMachine()
-        {
-            var roamFragment = BuildRoamGroup();
-            var chaseFragment = BuildChaseGroup();
-
-            var roamToChaseDecision = new ToChaseDecision(gameObject, enemy);
-            var roamToChaseTransition = new Transition(roamToChaseDecision,
-                                                chaseFragment.Entry);
-            roamFragment.AddTransitionToAllStates(roamToChaseTransition);
-
-            var attackFragment = BuildAttackGroup();
-
-            var chaseToAttackDecision = new ToCatchDecision(gameObject, enemy);
-            var chaseToAttackTransition = new Transition(chaseToAttackDecision,
-                                                        attackFragment.Entry);
-
-            var attackToChaseDecision = new OppositeDecision(
-                                            new ToCatchDecision(gameObject,
-                                                                        enemy));
-            var attackToChaseTransition = new Transition(attackToChaseDecision,
-                                                        chaseFragment.Entry);
-
-            chaseFragment.AddTransitionToAllStates(chaseToAttackTransition);
-            attackFragment.AddTransitionToAllStates(attackToChaseTransition);
-
-            return new StateMachine(roamFragment.Entry);
+            _attackStateMachine.Execute();
         }
 
         private void Init() {
             var fov = gameObject.GetComponent<FieldOfView>();
-            fov.Value = 6.0f;
+            fov.Value = 12.0f;
 
             var catchComp = gameObject.GetComponent<Catch>();
-            catchComp.Radius = 6.0f;
+            catchComp.Value = 6.0f;
+        }
 
-            var watchDistance = gameObject.GetComponent<WatchDistance>();
-            watchDistance.Value = 6.0f;
+        private StateMachine BuildRoamStateMachine()
+        {
+            var roamGroup = BuildRoamGroup();
+            var chaseGroup = BuildChaseGroup();
+
+            var toChaseDecision = new ToChaseDecision(gameObject, enemy);
+            var toChaseTransition = new Transition(toChaseDecision,
+                                                   chaseGroup.Entry);
+            roamGroup.AddTransitionToAllStates(toChaseTransition);
+
+            return new StateMachine(roamGroup.Entry);
         }
 
         private StateGroup BuildRoamGroup()
@@ -102,7 +88,16 @@ namespace AI.Configs
             var chaseAction = new ChaseAction(gameObject, enemy, 0.01f);
             var chaseState = new State();
             chaseState.AddAction(chaseAction);
-    
+
+            var catchState = new State();
+            var toCatchDecision = new ToCatchDecision(gameObject, enemy);
+            var toCatchTransition = new Transition(toCatchDecision, catchState);
+            chaseState.AddTransition(toCatchTransition);
+
+            var catchToChaseDecision = new OppositeDecision(toCatchDecision);
+            var catchToChaseTransition = new Transition(catchToChaseDecision, chaseState);
+            catchState.AddTransition(catchToChaseTransition);
+
             return new StateGroup(chaseState);
         }
 
@@ -127,18 +122,18 @@ namespace AI.Configs
 
         private StateMachine BuildAttackStateMachine()
         {
-            var arch = new AI.Archer.Arch(1.0f, firePoint.transform, arrowPrefab, enemy);
-            var fighter = new AI.Archer.Fighter(arch);
-
-            var idleState = new State();
+            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab, enemy);
+            var fighter = new Fighter(arch);
 
             var attackState = new State();
-            attackState.AddAction(new AI.Archer.AttackAction(fighter));
+            attackState.AddAction(new AttackAction(fighter));
 
-            var toAttackDecision = new 
+            var idleState = new State();
+            var toAttackDecision = new ToAttackDecision(gameObject, enemy);
+            var toAttackTransition = new Transition(toAttackDecision, attackState);
+            idleState.AddTransition(toAttackTransition);
     
-            return new StateMachine(attackState);
-
+            return new StateMachine(idleState);
         }
 
         [SerializeField] private GameObject enemy;

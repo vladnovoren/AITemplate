@@ -1,6 +1,4 @@
-using AI.Base;
-
-namespace AI.Chasing
+namespace AI.Base
 {
     public class OppositeDecision : IDecision
     {

@@ -11,7 +11,7 @@ namespace AI.Watch
             _ownerTransform = owner.transform;
             _enemyTransform = enemy.transform;
 
-            _ownerWatchDistance = owner.GetComponent<AI.Chasing.FieldOfView>();
+            _ownerWatchDistance = owner.GetComponent<FieldOfView>();
         }
 
         public bool Decide()
@@ -24,6 +24,6 @@ namespace AI.Watch
         private readonly Transform _ownerTransform;
         private readonly Transform _enemyTransform;
 
-        private readonly AI.Chasing.FieldOfView  _ownerWatchDistance;
+        private readonly FieldOfView _ownerWatchDistance;
     }
 }
