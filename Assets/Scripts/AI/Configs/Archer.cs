@@ -1,6 +1,5 @@
 using UnityEngine;
 using AI.Base;
-using Utils.Time;
 using AI.Watch;
 using AI.Movement.Chase;
 using AI.Movement.Roam;
@@ -10,26 +9,24 @@ namespace AI.Configs
 {
     public class Archer : MonoBehaviour
     {
-        public void Awake()
+        private void Awake()
         {
             Init();
-            _mainStateMachine = BuildRoamStateMachine();
-            _watchStateMachine = BuildWatchStateMachine();
-            _attackStateMachine = BuildAttackStateMachine();
+            BuildStateMachines();
         }
 
         private void Start()
         {
-            _mainStateMachine.OnEnter();
-            _watchStateMachine.OnEnter();
-            _attackStateMachine.OnEnter();
+            _movementStateMachine.OnEntry();
+            _attackStateMachine.OnEntry();
+            _watchStateMachine.OnEntry();
         }
 
         private void Update()
         {
-            _mainStateMachine.Execute();
-            _watchStateMachine.Execute();
+            _movementStateMachine.Execute();
             _attackStateMachine.Execute();
+            _watchStateMachine.Execute();
         }
 
         private void Init() {
@@ -40,66 +37,26 @@ namespace AI.Configs
             catchComp.Value = 6.0f;
         }
 
-        private StateMachine BuildRoamStateMachine()
+        private void BuildStateMachines()
         {
-            var roamGroup = BuildRoamGroup();
-            var chaseGroup = BuildChaseGroup();
+            _watchStateMachine = new WatchStateMachine(gameObject, enemy);
 
-            var toChaseDecision = new ToChaseDecision(gameObject, enemy);
-            var toChaseTransition = new Transition(toChaseDecision,
-                                                   chaseGroup.Entry);
-            roamGroup.AddTransitionToAllStates(toChaseTransition);
+            _roamStateMachine = new RoamStateMachine(gameObject);
+            _chaseStateMachine = new ChaseStateMachine(gameObject, enemy);
+            _movementStateMachine = StateMachine.Merge(_roamStateMachine, _chaseStateMachine, _roamStateMachine.Entry);
 
-            return new StateMachine(roamGroup.Entry);
-        }
-
-        private StateGroup BuildChaseGroup()
-        {
-        }
-
-        private StateMachine BuildWatchStateMachine()
-        {
-            var watchState = new State();
-            var watchAction = new WatchAction(gameObject, enemy);
-            watchState.AddAction(watchAction);
-
-            var idleState = new State();
-
-            var toWatchDecision = new ToWatchDecision(gameObject, enemy);
-            var toWatchTransition = new Transition(toWatchDecision, watchState);
-            idleState.AddTransition(toWatchTransition);
-
-            var toIdleTransition = new Transition(new OppositeDecision(toWatchDecision),
-                                                    idleState);
-            watchState.AddTransition(toIdleTransition);
-
-            return new StateMachine(idleState);
-        }
-
-        private StateMachine BuildAttackStateMachine()
-        {
-            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab, enemy);
-            var fighter = new Fighter(arch);
-
-            var attackState = new State();
-            attackState.AddAction(new AttackAction(fighter));
-
-            var idleState = new State();
-            var toAttackDecision = new ToAttackDecision(gameObject, enemy);
-            var toAttackTransition = new Transition(toAttackDecision, attackState);
-            idleState.AddTransition(toAttackTransition);
-    
-            return new StateMachine(idleState);
+            _attackStateMachine = new AttackStateMachine(gameObject, firePoint, arrowPrefab, enemy);
         }
 
         [SerializeField] private GameObject enemy;
 
         [SerializeField] private GameObject arrowPrefab;
         [SerializeField] private GameObject firePoint;
-    
-        private StateMachine _mainStateMachine;
-        private StateMachine _watchStateMachine;
-        private StateMachine _attackStateMachine;
-        private StateGroup _roamingGroup;
+
+        private WatchStateMachine _watchStateMachine;
+        private RoamStateMachine _roamStateMachine;
+        private ChaseStateMachine _chaseStateMachine;
+        private StateMachine _movementStateMachine;
+        private AttackStateMachine _attackStateMachine;
     }
 }

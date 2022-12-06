@@ -10,6 +10,23 @@ namespace AI.Base
         }
 
         public State Entry { get; set; }
+        public State CurrentState { get; set; }
+
+        public void OnEntry()
+        {
+            CurrentState = Entry;
+            CurrentState.OnEnter();
+        }
+
+        public void Execute()
+        {
+            CurrentState.Execute(this);
+        }
+
+        public void OnExit()
+        {
+            CurrentState.OnExit();
+        }
 
         public void AddTransitionToAllStates(Transition transition)
         {
