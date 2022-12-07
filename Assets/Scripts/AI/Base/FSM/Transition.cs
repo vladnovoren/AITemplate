@@ -11,7 +11,7 @@
         public void Transit(StateMachine stateMachine)
         {
             if (_decision.Decide())
-                stateMachine.ChangeState(TrueState);
+                stateMachine.CurrentState = TrueState;
         }
 
         public State TrueState { get; private set; }

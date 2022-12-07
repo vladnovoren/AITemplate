@@ -10,12 +10,9 @@ namespace Utils.Math
             return (center - toCheck).sqrMagnitude < sqrRadius;
         }
 
-        public static bool CheckRaycast(Transform watcher, Transform target)
+        public static bool CheckObjectRaycast(Ray ray, Transform target)
         {
-            var persecutorToVictim = new Ray(watcher.position,
-                                             target.position
-                                             - watcher.position);
-            return Physics.Raycast(persecutorToVictim, out RaycastHit hit)
+            return Physics.Raycast(ray, out RaycastHit hit)
                    && hit.transform == target;
         }
     }

@@ -17,14 +17,26 @@ namespace AI.Movement.Chase
 
         public bool Decide()
         {
-            return Points.InOpenBall(_ownerTransform.position, _chasedTransform.position,
-                                     _fov.SqrValue)
-                   && Points.CheckRaycast(_ownerTransform, _chasedTransform);
+            if (Points.InOpenBall(_ownerTransform.position, _chasedTransform.position,
+                                  _fov.SqrValue))
+            {
+                if (_alreadyChased)
+                    return true;
+
+                if (Points.CheckObjectsRaycast(_ownerTransform, _chasedTransform))
+                {
+                    _alreadyChased = true;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private Transform _ownerTransform;
         private Transform _chasedTransform;
 
         private FieldOfView _fov;
+
+        private bool _alreadyChased = false;
     }
 }

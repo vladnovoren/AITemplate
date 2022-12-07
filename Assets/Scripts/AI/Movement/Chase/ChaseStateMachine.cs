@@ -33,19 +33,19 @@ namespace AI.Movement.Chase
 
         private void BuildChaseToCatchTransition()
         {
-            var toCatchDecision = new ToCatchDecision(_agent, _enemy);
-            var toCatchTransition = new Transition(toCatchDecision, CatchState);
+           _toCatchDecision = new ToCatchDecision(_agent, _enemy);
+            var toCatchTransition = new Transition(_toCatchDecision, CatchState);
             ChaseState.AddTransition(toCatchTransition);
         }
 
         private void BuildCatchToChaseTransition()
         {
             var catchToChaseDecision = new OppositeDecision(_toCatchDecision);
-            var catchToChaseTransition = new Transition(catchToChaseDecision, chaseState);
+            var catchToChaseTransition = new Transition(catchToChaseDecision, ChaseState);
             CatchState.AddTransition(catchToChaseTransition);
         }
 
-        private readonly ToCatchDecision _toCatchDecision;
+        private ToCatchDecision _toCatchDecision;
 
         private readonly GameObject _agent;
         private readonly GameObject _enemy;

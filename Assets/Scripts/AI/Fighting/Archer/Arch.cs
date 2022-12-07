@@ -26,7 +26,7 @@ namespace AI.Fighting.Archer
             if (CanShoot())
             {
                 SpawnArrow();
-                _timer.Restart(_reloadTime);
+                _timer.Restart(_reloadTime + Random.Range(0, _reloadEps));
             }
         }
 
@@ -43,10 +43,11 @@ namespace AI.Fighting.Archer
 
         private bool CheckRaycast()
         {
-            return Points.CheckRaycast(_firePoint, _enemyTransform);
+            return Points.CheckObjectsRaycast(_firePoint, _enemyTransform);
         }
 
         private readonly float _reloadTime;
+        private readonly float _reloadEps = 1.0f;
         private readonly CountdownTimer _timer;
 
         private readonly Transform _firePoint;

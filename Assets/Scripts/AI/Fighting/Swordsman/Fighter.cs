@@ -36,7 +36,7 @@ namespace AI.Fighting.Swordsman
 
         private bool CheckRaycast()
         {
-            return Points.CheckRaycast(_transform, _enemyTransform);
+            return Points.CheckObjectRaycast(new Ray(_transform.position, _transform.forward), _enemyTransform);
         }
 
         private Transform _transform;

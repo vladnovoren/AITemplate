@@ -33,8 +33,8 @@ namespace AI.Watch
 
         private void BuildIdleToWatchTransition()
         {
-            var toWatchDecision = new ToWatchDecision(_agent, _enemy);
-            var toWatchTransition = new Transition(toWatchDecision, WatchState);
+            _toWatchDecision = new ToWatchDecision(_agent, _enemy);
+            var toWatchTransition = new Transition(_toWatchDecision, WatchState);
             IdleState.AddTransition(toWatchTransition);
         }
 
@@ -48,6 +48,6 @@ namespace AI.Watch
         private readonly GameObject _agent;
         private readonly GameObject _enemy;
 
-        private readonly ToWatchDecision _toWatchDecision;
+        private ToWatchDecision _toWatchDecision;
     } 
 }

@@ -19,7 +19,7 @@ namespace AI.Fighting.Swordsman
         {
             return Points.InOpenBall(_ownerTransform.position, _enemyTransform.position,
                                      _catch.SqrValue)
-                   && Points.CheckRaycast(_ownerTransform, _enemyTransform);
+                   && Points.CheckObjectRaycast(new Ray(_ownerTransform.position, _ownerTransform.forward), _enemyTransform);
         }
 
         private readonly Transform _ownerTransform;

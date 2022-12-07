@@ -18,7 +18,8 @@ namespace AI.Movement.Chase
         {
             return Points.InOpenBall(_victimTransform.position,
                                      _persecutorAgentTransform.position,
-                                     _persecutorCatch.SqrValue);
+                                     _persecutorCatch.SqrValue)
+                   && Points.CheckObjectRaycast(_persecutorAgentTransform, _victimTransform);
         }
 
         private Catch _persecutorCatch;

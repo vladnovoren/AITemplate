@@ -34,7 +34,7 @@ namespace AI.Fighting.Archer
             AttackState.AddAction(new AttackAction(fighter));
         }
 
-        private void BuildIdleToAttackTransition()
+        private void BuildIdleToAttackTransition(GameObject firePoint)
         {
             var toAttackDecision = new ToAttackDecision(_agent, _enemy);
             var toAttackTransition = new Transition(toAttackDecision, AttackState);
