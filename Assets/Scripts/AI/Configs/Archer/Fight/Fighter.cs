@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace AI.Fighting.Archer
+namespace AI.Configs.Archer.Fight
 {
     public class Fighter
     {
