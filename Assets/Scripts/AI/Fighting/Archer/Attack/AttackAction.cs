@@ -1,4 +1,5 @@
 using AI.Base;
+using System;
 
 namespace AI.Fighting.Archer
 {
@@ -11,9 +12,23 @@ namespace AI.Fighting.Archer
 
         public override void Execute()
         {
-            _fighter.TryShoot();
+            if (!_fighter.HitsEnemy())
+            {
+                OnNeedToComeCloser(this, EventArgs.Empty);
+            }
+            else
+            {
+                _fighter.TryShoot();
+            }
         }
 
-        private Fighter _fighter;
+        public event EventHandler NeedToComeCloser;
+
+        private void OnNeedToComeCloser(object sender, EventArgs args)
+        {
+            NeedToComeCloser?.Invoke(this, args);
+        }
+
+        private readonly Fighter _fighter;
     }
 }

@@ -13,7 +13,7 @@ namespace AI.Fighting.Archer
 
             BuildIdleState();
             BuildAttackState(firePoint, arrowPrefab);
-            BuildIdleToAttackTransition();
+            BuildIdleToAttackTransition(firePoint);
         }
 
         public State IdleState { get; private set; }
@@ -27,8 +27,8 @@ namespace AI.Fighting.Archer
 
         private void BuildAttackState(GameObject firePoint, GameObject arrowPrefab)
         {
-            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab, _enemy);
-            var fighter = new Fighter(arch);
+            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
+            var fighter = new Fighter(arch, _enemy);
 
             AttackState = new State();
             AttackState.AddAction(new AttackAction(fighter));

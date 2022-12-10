@@ -7,18 +7,14 @@ namespace AI.Fighting.Archer
     public class Arch
     {
         public Arch(float reloadTime, Transform firePoint,
-                    GameObject arrowPrefab, GameObject enemy)
+                    GameObject arrowPrefab)
         {
             _reloadTime = reloadTime;
             _timer = new CountdownTimer();
             _timer.Restart(0.0f);
 
-            _firePoint = firePoint;
-
+            _firePointTransform = firePoint;
             _arrowPrefab = arrowPrefab;
-
-            _enemy = enemy;
-            _enemyTransform = enemy.transform;
         }
 
         public void TryShoot()
@@ -26,35 +22,54 @@ namespace AI.Fighting.Archer
             if (CanShoot())
             {
                 SpawnArrow();
-                _timer.Restart(_reloadTime + Random.Range(0, _reloadEps));
+                _timer.Restart(_reloadTime + UnityEngine.Random.Range(0, _reloadEps));
             }
+        }
+
+        public bool HitsEnemy(Transform enemyTransform)
+        {
+            BuildRays();
+            return Points.CheckObjectRaycast(_leftRay, enemyTransform) && 
+                   Points.CheckObjectRaycast(_middleRay, enemyTransform) &&
+                   Points.CheckObjectRaycast(_rightRay, enemyTransform);
+        }
+
+        public bool CanShoot()
+        {
+            return _timer.IsDown();
         }
 
         private void SpawnArrow()
         {
-            Object.Instantiate(_arrowPrefab, _firePoint.position,
-                               Quaternion.LookRotation(_firePoint.forward));
+            UnityEngine.Object.Instantiate(_arrowPrefab,
+                                           _firePointTransform.position,
+                                           UnityEngine.Quaternion.LookRotation(
+                                               _firePointTransform.forward));
         }
 
-        private bool CanShoot()
+        private void BuildRays()
         {
-            return _timer.IsDown() && CheckRaycast();
-        }
+            _middleRay.origin = _firePointTransform.position;
 
-        private bool CheckRaycast()
-        {
-            return Points.CheckObjectsRaycast(_firePoint, _enemyTransform);
+            var toRight = _firePointTransform.localScale.x * _firePointTransform.right;
+            var toLeft = -toRight;
+
+            _leftRay.origin = _middleRay.origin + toLeft;
+            _rightRay.origin = _middleRay.origin + toRight;
+
+            _leftRay.direction = _middleRay.direction = _rightRay.direction = _firePointTransform.forward;
         }
 
         private readonly float _reloadTime;
         private readonly float _reloadEps = 1.0f;
         private readonly CountdownTimer _timer;
 
-        private readonly Transform _firePoint;
+        private readonly Transform _firePointTransform;
+
+        private Ray _leftRay;
+        private Ray _middleRay;
+        private Ray _rightRay;
 
         private readonly GameObject _arrowPrefab;
-
-        private readonly GameObject _enemy;
-        private readonly Transform _enemyTransform;
     }
 }

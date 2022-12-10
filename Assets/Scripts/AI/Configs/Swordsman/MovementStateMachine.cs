@@ -2,6 +2,7 @@
 using AI.Base;
 using AI.Movement.Chase;
 using AI.Movement.Roam;
+using System;
 
 namespace AI.Configs.Swordsman
 {
@@ -13,12 +14,18 @@ namespace AI.Configs.Swordsman
             ChaseStateMachine = new ChaseStateMachine(agent, enemy);
 
             var toChaseDecision = new ToChaseDecision(agent, enemy);
-            var toChaseTransition = new Transition(toChaseDecision, ChaseStateMachine.ChaseState);
+            var toChaseTransition = new Transition(toChaseDecision,
+                                                   ChaseStateMachine.ChaseState);
             RoamStateMachine.AddTransitionToAllStates(toChaseTransition);
 
             MergeCore(this, RoamStateMachine);
             MergeCore(this, ChaseStateMachine);
             Entry = RoamStateMachine.Entry;
+        }
+
+        public void OnNeedToComeCloser(object sender, EventArgs args)
+        {
+            CurrentState = ChaseStateMachine.ChaseState;
         }
 
         public RoamStateMachine RoamStateMachine { get; private set; }

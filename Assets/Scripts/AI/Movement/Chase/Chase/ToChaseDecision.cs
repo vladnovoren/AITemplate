@@ -23,7 +23,7 @@ namespace AI.Movement.Chase
                 if (_alreadyChased)
                     return true;
 
-                if (Points.CheckObjectsRaycast(_ownerTransform, _chasedTransform))
+                if (Points.CheckObjectRaycast(_ownerTransform, _chasedTransform))
                 {
                     _alreadyChased = true;
                     return true;
