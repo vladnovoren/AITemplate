@@ -1,17 +1,17 @@
 namespace AI.Base
 {
-    public class OppositeDecision : IDecision
+    public class OppositeDecision : ADecision
     {
-        public OppositeDecision(IDecision baseDecision)
+        public OppositeDecision(ADecision baseDecision)
         {
             _baseDecision = baseDecision;
         }
 
-        public bool Decide()
+        public override bool Decide()
         {
             return !_baseDecision.Decide();
         }
 
-        private IDecision _baseDecision;
+        private ADecision _baseDecision;
     }
 }

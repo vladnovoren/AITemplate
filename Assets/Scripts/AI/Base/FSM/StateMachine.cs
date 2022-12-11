@@ -26,18 +26,18 @@ namespace AI.Base
             }
         }
 
-        public void OnEntry()
+        public virtual void OnEntry()
         {
             CurrentState = Entry;
             CurrentState.OnEnter();
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
             CurrentState.Execute(this);
         }
 
-        public void OnExit()
+        public virtual void OnExit()
         {
             CurrentState.OnExit();
         }

@@ -1,7 +1,6 @@
 using UnityEngine;
-using AI.Watch;
-using AI.Movement.Chase;
-using AI.Fighting.Archer;
+using AI.Common.Watch;
+using AI.Common.Components;
 
 namespace AI.Configs.Archer
 {
@@ -15,16 +14,14 @@ namespace AI.Configs.Archer
 
         private void Start()
         {
-            _movementStateMachine.OnEntry();
-            _attackStateMachine.OnEntry();
             _watchStateMachine.OnEntry();
+            _masterStateMachine.OnEntry();
         }
 
         private void Update()
         {
-            _movementStateMachine.Execute();
-            _attackStateMachine.Execute();
             _watchStateMachine.Execute();
+            _masterStateMachine.Execute();
         }
 
         private void Init() {
@@ -37,9 +34,10 @@ namespace AI.Configs.Archer
 
         private void BuildStateMachines()
         {
-            _watchStateMachine = new WatchStateMachine(gameObject, enemy);
-            _movementStateMachine = new MovementStateMachine(gameObject, enemy);
-            _attackStateMachine = new AttackStateMachine(gameObject, firePoint, arrowPrefab, enemy);
+            var spottingManager = room.GetComponent<Room>().SpottingManager;
+            _watchStateMachine = new WatchStateMachine(gameObject, enemy, spottingManager);
+            _masterStateMachine = new MasterStateMachine(gameObject, firePoint, arrowPrefab,
+                                                         enemy, spottingManager);
         }
 
         [SerializeField] private GameObject enemy;
@@ -47,8 +45,9 @@ namespace AI.Configs.Archer
         [SerializeField] private GameObject arrowPrefab;
         [SerializeField] private GameObject firePoint;
 
+        [SerializeField] private GameObject room;
+
         private WatchStateMachine _watchStateMachine;
-        private MovementStateMachine _movementStateMachine;
-        private AttackStateMachine _attackStateMachine;
+        private MasterStateMachine _masterStateMachine;
     }
 }

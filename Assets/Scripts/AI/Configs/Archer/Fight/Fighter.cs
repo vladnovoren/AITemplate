@@ -12,7 +12,7 @@ namespace AI.Configs.Archer.Fight
 
         public bool HitsEnemy()
         {
-            return _arch.HitsEnemy(_enemyTransform);
+            return _arch.HitsEnemy();
         }
 
         public void TryShoot()

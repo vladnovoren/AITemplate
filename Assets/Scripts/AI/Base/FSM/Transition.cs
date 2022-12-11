@@ -2,7 +2,7 @@
 {
     public class Transition
     {
-        public Transition(IDecision decision, State trueState)
+        public Transition(ADecision decision, State trueState)
         {
             _decision = decision;
             TrueState = trueState;
@@ -16,6 +16,6 @@
 
         public State TrueState { get; private set; }
 
-        private IDecision _decision;
+        private ADecision _decision;
     }
 }

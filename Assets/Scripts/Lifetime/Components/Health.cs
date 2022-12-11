@@ -52,7 +52,7 @@ namespace Lifetime
             _archDamage = 0;
         }
 
-        private float _health = 100f;
+        [SerializeField] private float _health = 100f;
         private float _armor = 100f;
 
         private float _swordDamage = 0;

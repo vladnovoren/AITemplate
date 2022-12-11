@@ -1,5 +1,6 @@
 using AI.Base;
 using System;
+using UnityEngine;
 
 namespace AI.Configs.Archer.Fight
 {
@@ -12,6 +13,7 @@ namespace AI.Configs.Archer.Fight
 
         public override void Execute()
         {
+            Debug.Log("AttackAction.Execute()");
             if (!_fighter.HitsEnemy())
             {
                 OnNeedToComeCloser();

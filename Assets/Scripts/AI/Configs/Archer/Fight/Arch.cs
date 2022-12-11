@@ -26,12 +26,15 @@ namespace AI.Configs.Archer.Fight
             }
         }
 
-        public bool HitsEnemy(Transform enemyTransform)
+        public bool HitsEnemy()
         {
             BuildRays();
-            return Points.CheckObjectRaycast(_leftRay, enemyTransform) && 
-                   Points.CheckObjectRaycast(_middleRay, enemyTransform) &&
-                   Points.CheckObjectRaycast(_rightRay, enemyTransform);
+            Debug.DrawRay(_leftRay.origin, _leftRay.direction);
+            Debug.DrawRay(_middleRay.origin, _middleRay.direction);
+            Debug.DrawRay(_rightRay.origin, _rightRay.direction);
+            return Points.CheckObjectRaycast<PlayerTag>(_leftRay) && 
+                   Points.CheckObjectRaycast<PlayerTag>(_middleRay) &&
+                   Points.CheckObjectRaycast<PlayerTag>(_rightRay);
         }
 
         public bool CanShoot()
@@ -49,9 +52,9 @@ namespace AI.Configs.Archer.Fight
 
         private void BuildRays()
         {
-            _middleRay.origin = _firePointTransform.position;
+            _middleRay.origin = _firePointTransform.position - _firePointTransform.localScale.x * _firePointTransform.forward;
 
-            var toRight = _firePointTransform.localScale.x * _firePointTransform.right;
+            var toRight = 0.5f * _firePointTransform.localScale.x * _firePointTransform.right;
             var toLeft = -toRight;
 
             _leftRay.origin = _middleRay.origin + toLeft;

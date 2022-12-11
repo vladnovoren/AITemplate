@@ -2,7 +2,7 @@
 using UnityEngine;
 using Utils.Time;
 
-namespace AI.Movement.Roam
+namespace AI.Common.Roam
 {
     public class RoamStateMachine : StateMachine
     {

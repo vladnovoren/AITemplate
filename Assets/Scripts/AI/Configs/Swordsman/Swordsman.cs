@@ -1,8 +1,7 @@
+/*
 using UnityEngine;
 using AI.Base;
-using AI.Movement.Chase;
 using AI.Watch;
-using AI.Fighting.Swordsman;
 
 namespace AI.Configs.Swordsman
 {
@@ -50,6 +49,6 @@ namespace AI.Configs.Swordsman
 
         private WatchStateMachine _watchStateMachine;
         private StateMachine _movementStateMachine;
-        private AttackStateMachine _attackStateMachine;
     }
 }
+*/

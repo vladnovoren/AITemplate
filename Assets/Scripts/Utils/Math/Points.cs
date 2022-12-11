@@ -10,10 +10,10 @@ namespace Utils.Math
             return (center - toCheck).sqrMagnitude < sqrRadius;
         }
 
-        public static bool CheckObjectRaycast(Ray ray, Transform target)
+        public static bool CheckObjectRaycast<TagT>(Ray ray)
         {
             return Physics.Raycast(ray, out RaycastHit hit)
-                   && hit.transform == target;
+                   && hit.transform.gameObject.GetComponent<TagT>() != null;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace AI.Base
 {
-    public class TrueDecision : IDecision
+    public class TrueDecision : ADecision
     {
-        public bool Decide()
+        public override bool Decide()
         {
             return true;
         }

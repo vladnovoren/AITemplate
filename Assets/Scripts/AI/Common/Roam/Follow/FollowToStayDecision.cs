@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-
-namespace AI.Movement.Roam
+namespace AI.Common.Roam
 {
     public class FollowToStayDecision : AGameObjectBasedDecision
     {

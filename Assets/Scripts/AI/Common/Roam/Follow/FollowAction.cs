@@ -2,7 +2,7 @@
 using UnityEngine.AI;
 using UnityEngine;
 
-namespace AI.Movement.Roam
+namespace AI.Common.Roam
 {
     class FollowAction : AGameObjectBasedAction
     {

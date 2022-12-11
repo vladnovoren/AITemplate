@@ -2,16 +2,16 @@
 using UnityEngine;
 using Utils.Time;
 
-namespace AI.Movement.Roam
+namespace AI.Common.Roam
 {
-    class StayToFollowDecision : IDecision
+    class StayToFollowDecision : ADecision
     {
         public StayToFollowDecision(CountdownTimer timer)
         {
             _timer = timer;
         }
 
-        public bool Decide()
+        public override bool Decide()
         {
             return _timer.IsDown();
         }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AI.Base;
-using System;
 
 namespace AI.Configs.Archer.Fight
 {
@@ -12,7 +11,7 @@ namespace AI.Configs.Archer.Fight
             var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
             var fighter = new Fighter(arch, enemy);
             var attackAction = new AttackAction(fighter);
-            InitStates(agent, firePoint, arrowPrefab, attackAction, enemy);
+            InitStates(agent, attackAction, enemy);
             InitTransitions(agent, enemy, attackAction);
         }
 
@@ -20,8 +19,7 @@ namespace AI.Configs.Archer.Fight
 
         public State CatchState { get; private set; }
 
-        private void InitStates(GameObject agent, GameObject firePoint,
-                                GameObject arrowPrefab, AttackAction attackAction,
+        private void InitStates(GameObject agent, AttackAction attackAction,
                                 GameObject enemy)
         {
             InitChaseState(agent, enemy, attackAction);
@@ -35,24 +33,27 @@ namespace AI.Configs.Archer.Fight
             var chaseAction = new ChaseAction(agent, enemy, 0.01f);
             ChaseState.AddAction(chaseAction);
             ChaseState.AddAction(attackAction);
+            AddState(ChaseState);
+            Entry = ChaseState;
         }
 
         private void InitCatchState(AttackAction attackAction)
         {
             CatchState = new State();
             CatchState.AddAction(attackAction);
+            AddState(CatchState);
         }
 
         private void InitTransitions(GameObject agent, GameObject enemy,
                                      AttackAction attackAction)
         {
-            var chaseToCatchDecision = new CatchToChaseDecision(agent, enemy, attackAction);
-            var chaseToCatchTransition = new Transition(chaseToCatchDecision, CatchState);
-            ChaseState.AddTransition(chaseToCatchTransition);
-
-            var catchToChaseTransition = new Transition(new OppositeDecision(chaseToCatchDecision),
-                                                        CatchState);
+            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, attackAction);
+            var catchToChaseTransition = new Transition(catchToChaseDecision, ChaseState);
             CatchState.AddTransition(catchToChaseTransition);
+
+            var chaseToCatchTransition = new Transition(new OppositeDecision(catchToChaseDecision),
+                                                        CatchState);
+            ChaseState.AddTransition(chaseToCatchTransition);
         }
     }
 }
