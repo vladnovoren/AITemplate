@@ -1,2 +1,3 @@
-add swordsman behavior
-add archer behavior
+add specialized classes for concrete types of state machines (e.g. roam, chase, attack)
+configure swordsman
+add events

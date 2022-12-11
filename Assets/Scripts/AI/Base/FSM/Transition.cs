@@ -2,19 +2,20 @@
 {
     public class Transition
     {
-        public Transition(IDecision decision, State trueState)
+        public Transition(ADecision decision, State trueState)
         {
             _decision = decision;
-            _trueState = trueState;
+            TrueState = trueState;
         }
 
         public void Transit(StateMachine stateMachine)
         {
             if (_decision.Decide())
-                stateMachine.ChangeState(_trueState);
+                stateMachine.CurrentState = TrueState;
         }
 
-        private IDecision _decision;
-        private State _trueState;
+        public State TrueState { get; private set; }
+
+        private ADecision _decision;
     }
 }

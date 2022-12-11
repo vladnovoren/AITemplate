@@ -1,7 +1,7 @@
 ﻿namespace AI.Base
 {
-    public interface IDecision
+    public abstract class ADecision
     {
-        public bool Decide();
+        abstract public bool Decide();
     }
 }

@@ -25,7 +25,6 @@ namespace Lifetime
 
         private bool IsAlive()
         {
-            Debug.Log("_health: " + _health);
             return _health > 0;
         }
 
@@ -53,7 +52,7 @@ namespace Lifetime
             _archDamage = 0;
         }
 
-        private float _health = 100f;
+        [SerializeField] private float _health = 100f;
         private float _armor = 100f;
 
         private float _swordDamage = 0;
