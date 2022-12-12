@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Utils.Time;
+using Utils.Math;
 
 namespace AI.Base
 {
@@ -14,7 +16,7 @@ namespace AI.Base
             _states.Add(state);
         }
 
-        public State Entry { get; set; }
+        public State EntryState { get; set; }
         public State CurrentState
         {
             get => _currentState;
@@ -28,7 +30,7 @@ namespace AI.Base
 
         public virtual void OnEntry()
         {
-            CurrentState = Entry;
+            CurrentState = EntryState;
             CurrentState.OnEnter();
         }
 
@@ -45,8 +47,35 @@ namespace AI.Base
         public void AddTransitionToAllStates(Transition transition)
         {
             foreach (var state in _states)
-                state.AddTransition(transition);
-            AddStateToList(transition.TrueState);
+                state.AddTransition(new Transition(transition));
+        }
+
+        public void AddTransitionToAllStatesWithBack(Transition transition)
+        {
+            foreach (var state in _states)
+            {
+                var forwardTransition = new Transition(transition);
+                var backTransition = new Transition(new BackDecision(forwardTransition),
+                                                    state);
+                state.AddTransition(forwardTransition);
+                forwardTransition.TrueState.AddTransition(backTransition);
+            }
+        }
+        public State MakeTimeout(Range timeout)
+        {
+            var entryState = new State();
+            var timer = new CountdownTimer();
+            var restartTimerAction = new RestartTimerAction(timer, timeout);
+            entryState.AddAction(restartTimerAction);
+            entryState.AddTransition(new Transition(new TrueDecision(), EntryState));
+
+            var exitState = new State();
+            AddTransitionToAllStates(new Transition(new TimeoutDecision(timer), exitState));
+
+            EntryState = entryState;
+            AddStateToList(EntryState);
+
+            return exitState;
         }
 
         protected static void MergeCore(StateMachine result, StateMachine operand)

@@ -4,26 +4,26 @@ namespace AI.Base
 {
     public class BackDecision : ADecision
     {
-        public BackDecision(NotifyingDecision forwardDecision)
+        public BackDecision(Transition forwardTransition)
         {
-            forwardDecision.DecisionAccepted += OnForwardDecisionAccepted;
+            forwardTransition.Accepted += OnForwardAccepted;
         }
 
         public override bool Decide()
         {
-            if (_forwardDecision)
+            if (_forwardAccepted)
             {
-                _forwardDecision = false;
+                _forwardAccepted = false;
                 return true;
             }
             return false;
         }
 
-        private void OnForwardDecisionAccepted(object sender, EventArgs args)
+        private void OnForwardAccepted(object sender, EventArgs args)
         {
-            _forwardDecision = true;
+            _forwardAccepted = true;
         }
 
-        private bool _forwardDecision = false;
+        private bool _forwardAccepted = false;
     }
 }

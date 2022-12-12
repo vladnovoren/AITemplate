@@ -1,4 +1,6 @@
-﻿namespace AI.Base
+﻿using System;
+
+namespace AI.Base
 {
     public abstract class ADecision
     {

@@ -20,9 +20,9 @@ namespace AI.Configs.Archer
             MergeCore(this, RoamStateMachine);
             MergeCore(this, FightStateMachine);
             var roamToFightDecision = new RoamToFightDecision(spottingManager);
-            var roamToFightTransition = new Transition(roamToFightDecision, FightStateMachine.Entry);
+            var roamToFightTransition = new Transition(roamToFightDecision, FightStateMachine.EntryState);
             RoamStateMachine.AddTransitionToAllStates(roamToFightTransition);
-            Entry = RoamStateMachine.Entry;
+            EntryState = RoamStateMachine.EntryState;
         }
 
         public RoamStateMachine RoamStateMachine { get; private set; }

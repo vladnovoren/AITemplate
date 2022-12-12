@@ -25,7 +25,7 @@ namespace AI.Common.Watch
         {
             IdleState = new State();
             AddStateToList(IdleState);
-            Entry = IdleState;
+            EntryState = IdleState;
         }
 
         private void BuildWatchState()

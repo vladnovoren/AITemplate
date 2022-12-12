@@ -32,7 +32,8 @@ namespace AI.Base
                 action.Execute();
 
             foreach (var transition in _transitions)
-                transition.Transit(stateMachine);
+                if (transition.Transit(stateMachine))
+                    break;
         }
 
         public void OnExit()

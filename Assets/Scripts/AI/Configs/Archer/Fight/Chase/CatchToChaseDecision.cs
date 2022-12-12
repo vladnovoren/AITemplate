@@ -5,7 +5,7 @@ using Utils.Math;
 using System;
 using AI.Common.Components;
 
-namespace AI.Configs.Archer.Fight
+namespace AI.Configs.Archer.Fight.Chase
 {
     public class CatchToChaseDecision : ADecision
     {
