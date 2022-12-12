@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AI.Configs.Archer.Fight
+namespace AI.Configs.Archer.Fight.Stuff
 {
     public class Fighter
     {

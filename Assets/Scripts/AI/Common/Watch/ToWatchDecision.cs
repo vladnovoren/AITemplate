@@ -27,7 +27,6 @@ namespace AI.Common.Watch
 
         private void OnEnemySpotted()
         {
-            Debug.Log("spotted");
             EnemySpotted?.Invoke(this, EventArgs.Empty);
         }
     }

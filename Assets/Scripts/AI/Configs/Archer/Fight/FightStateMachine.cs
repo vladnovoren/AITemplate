@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using Utils.Math;
+using Utils.Time;
 using AI.Base;
-using AI.Common.Roam;
-using Unity.VisualScripting;
+using AI.Configs.Archer.Fight.Dodge;
+using AI.Configs.Archer.Fight.Chase;
 
 namespace AI.Configs.Archer.Fight
 {
@@ -11,62 +12,31 @@ namespace AI.Configs.Archer.Fight
         public FightStateMachine(GameObject agent, GameObject firePoint,
                                  GameObject arrowPrefab, GameObject enemy)
         {
-            _roamStateMachine = new RoamStateMachine(agent,
-                                                     new Range(0, 0),
-                                                     new Range(0, 1));
-            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
-            var fighter = new Fighter(arch, enemy);
-            var attackAction = new AttackAction(fighter);
-            InitStates(agent, attackAction, enemy);
-            InitTransitions(agent, enemy, attackAction);
+            _chaseStateMachine = new ChaseStateMachine(agent, firePoint,
+                                                       arrowPrefab, enemy,
+                                                       new Range(3, 4));
+            _dodgeStateMachine = new DodgeStateMachine(agent,
+                                                      new Range(0, 0),
+                                                      new Range(1, 2),
+                                                      new Range(3, 4));
+            ConnectChaseAndDodge();
+            EntryState = _chaseStateMachine.EntryState;
         }
 
-        public State ChaseState { get; private set; }
-
-        public State CatchState { get; private set; }
-
-        private void InitStates(GameObject agent, AttackAction attackAction,
-                                GameObject enemy)
+        public void ConnectChaseAndDodge()
         {
-            InitChaseState(agent, enemy, attackAction);
-            InitCatchState(attackAction);
+            _chaseStateMachine.ExitState.AddTransition(
+                new Transition(new TrueDecision(),
+                               _dodgeStateMachine.EntryState)
+            );
+
+            _dodgeStateMachine.ExitState.AddTransition(
+                new Transition(new TrueDecision(),
+                               _chaseStateMachine.EntryState)
+            );
         }
 
-        private void InitChaseState(GameObject agent, GameObject enemy,
-                                    AttackAction attackAction)
-        {
-            ChaseState = new State();
-            var chaseAction = new ChaseAction(agent, enemy, 0.01f);
-            ChaseState.AddAction(chaseAction);
-            ChaseState.AddAction(attackAction);
-            AddState(ChaseState);
-            Entry = ChaseState;
-        }
-
-        private void InitCatchState(AttackAction attackAction)
-        {
-            CatchState = new State();
-            CatchState.AddAction(attackAction);
-            AddState(CatchState);
-        }
-
-        private void InitTransitions(GameObject agent, GameObject enemy,
-                                     AttackAction attackAction)
-        {
-            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, attackAction);
-            var catchToChaseTransition = new Transition(catchToChaseDecision, ChaseState);
-            CatchState.AddTransition(catchToChaseTransition);
-
-            var chaseToCatchTransition = new Transition(new OppositeDecision(catchToChaseDecision),
-                                                        CatchState);
-            ChaseState.AddTransition(chaseToCatchTransition);
-        }
-
-        private void ConnectWithRoam()
-        {
-            var 
-        }
-
-        private RoamStateMachine _roamStateMachine;
+        private readonly ChaseStateMachine _chaseStateMachine;
+        private readonly DodgeStateMachine _dodgeStateMachine;
     }
 }

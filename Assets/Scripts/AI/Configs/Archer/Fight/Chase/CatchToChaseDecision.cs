@@ -5,7 +5,7 @@ using Utils.Math;
 using System;
 using AI.Common.Components;
 
-namespace AI.Configs.Archer.Fight
+namespace AI.Configs.Archer.Fight.Chase
 {
     public class CatchToChaseDecision : ADecision
     {
@@ -24,8 +24,6 @@ namespace AI.Configs.Archer.Fight
                                             _persecutorAgentTransform.position,
                                             _persecutorCatch.SqrValue) ||
                          _needToComeCloser;
-            Debug.Log("CatchToChaseDecision: " + result);
-            Debug.Log("_needToComeCloser: " + _needToComeCloser);
             _needToComeCloser = false;
             return result;
         }

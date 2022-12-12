@@ -27,7 +27,7 @@ namespace AI.Common.Roam
             var stayAction = new StayAction(_agent, _timer, stayTime);
             StayState.AddAction(stayAction);
             AddStateToList(StayState);
-            Entry = StayState;
+            EntryState = StayState;
         }
 
         private void BuildFollowState(Range roamDistance)

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Utils.Math;
 
-namespace AI.Configs.Archer.Fight
+namespace AI.Configs.Archer.Fight.Chase
 {
     public class ChaseAction : AGameObjectBasedAction
     {
@@ -24,7 +24,6 @@ namespace AI.Configs.Archer.Fight
 
         public override void Execute()
         {
-            Debug.Log("ChaseAction.Execute()");
             if (NeedToChangePath())
                 SetDestinationToChased();
         }

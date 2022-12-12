@@ -2,7 +2,7 @@ using UnityEngine;
 using Utils.Math;
 using Utils.Time;
 
-namespace AI.Configs.Archer.Fight
+namespace AI.Configs.Archer.Fight.Stuff
 {
     public class Arch
     {

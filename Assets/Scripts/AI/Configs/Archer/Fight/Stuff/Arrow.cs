@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Lifetime;
 
-namespace AI.Configs.Archer
+namespace AI.Configs.Archer.Fight.Stuff
 {
     public class Arrow : MonoBehaviour
     {
