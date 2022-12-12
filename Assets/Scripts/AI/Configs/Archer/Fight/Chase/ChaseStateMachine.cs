@@ -7,43 +7,38 @@ namespace AI.Configs.Archer.Fight.Chase
 {
     public class ChaseStateMachine : StateMachine
     {
-        public ChaseStateMachine(GameObject agent, GameObject firePoint,
-                                 GameObject arrowPrefab, GameObject enemy,
+        public ChaseStateMachine(GameObject agent, GameObject enemy,
+                                 AttackAction attackAction,
                                  Range timeout)
         {
-            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
-            var fighter = new Fighter(arch, enemy);
-            var attackAction = new AttackAction(fighter);
-            InitStates(agent, attackAction, enemy);
+            InitStates(agent, enemy);
             InitTransitions(agent, enemy, attackAction);
             ExitState = MakeTimeout(timeout);
         }
+
 
         public State ChaseState { get; private set; }
         public State CatchState { get; private set; }
         public State ExitState { get; private set; }
 
-        private void InitStates(GameObject agent, AttackAction attackAction,
+        private void InitStates(GameObject agent,
                                 GameObject enemy)
         {
-            InitChaseState(agent, enemy, attackAction);
-            InitCatchState(attackAction);
+            InitChaseState(agent, enemy);
+            InitCatchState();
         }
 
-        private void InitChaseState(GameObject agent, GameObject enemy,
-                                    AttackAction attackAction)
+        private void InitChaseState(GameObject agent, GameObject enemy)
         {
             ChaseState = new State();
             var chaseAction = new ChaseAction(agent, enemy, 0.01f);
             ChaseState.AddAction(chaseAction);
-            ChaseState.AddAction(attackAction);
             AddStateToList(ChaseState);
         }
 
-        private void InitCatchState(AttackAction attackAction)
+        private void InitCatchState()
         {
             CatchState = new State();
-            CatchState.AddAction(attackAction);
             AddStateToList(CatchState);
             EntryState = CatchState;
         }
