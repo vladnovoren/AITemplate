@@ -61,6 +61,13 @@ namespace AI.Base
                 forwardTransition.TrueState.AddTransition(backTransition);
             }
         }
+
+        public void AddActionToAllStates(AAction action)
+        {
+            foreach (var state in _states)
+                state.AddAction(action);
+        }
+
         public State MakeTimeout(Range timeout)
         {
             var newEntryState = new State();
