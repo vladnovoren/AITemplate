@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+using Utils.Math;
 using AI.Base;
+using AI.Common.Roam;
+using Unity.VisualScripting;
 
 namespace AI.Configs.Archer.Fight
 {
@@ -8,6 +11,9 @@ namespace AI.Configs.Archer.Fight
         public FightStateMachine(GameObject agent, GameObject firePoint,
                                  GameObject arrowPrefab, GameObject enemy)
         {
+            _roamStateMachine = new RoamStateMachine(agent,
+                                                     new Range(0, 0),
+                                                     new Range(0, 1));
             var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
             var fighter = new Fighter(arch, enemy);
             var attackAction = new AttackAction(fighter);
@@ -55,5 +61,12 @@ namespace AI.Configs.Archer.Fight
                                                         CatchState);
             ChaseState.AddTransition(chaseToCatchTransition);
         }
+
+        private void ConnectWithRoam()
+        {
+            var 
+        }
+
+        private RoamStateMachine _roamStateMachine;
     }
 }

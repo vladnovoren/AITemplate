@@ -1,16 +1,18 @@
 ﻿using AI.Base;
 using UnityEngine;
 using Utils.Time;
+using Utils.Math;
 
 namespace AI.Common.Roam
 {
     public class RoamStateMachine : StateMachine
     {
-        public RoamStateMachine(GameObject agent)
+        public RoamStateMachine(GameObject agent, Range stayTime,
+                                Range roamDistance)
         {
             _agent = agent;
-            BuildStayState();
-            BuildFollowState();
+            BuildStayState(stayTime);
+            BuildFollowState(roamDistance);
             BuildFollowToStayTransition();
             BuildStayToFollowTransition();
         }
@@ -18,22 +20,22 @@ namespace AI.Common.Roam
         public State StayState { get; private set; }
         public State FollowState { get; private set; }
 
-        private void BuildStayState()
+        private void BuildStayState(Range stayTime)
         {
             StayState = new State();
             _timer = new CountdownTimer();
-            var stayAction = new StayAction(_agent, _timer, 1.0f, 2.0f);
+            var stayAction = new StayAction(_agent, _timer, stayTime);
             StayState.AddAction(stayAction);
-            AddState(StayState);
+            AddStateToList(StayState);
             Entry = StayState;
         }
 
-        private void BuildFollowState()
+        private void BuildFollowState(Range roamDistance)
         {
             FollowState = new State();
-            var followAction = new FollowAction(_agent, 1.0f, 2.0f);
+            var followAction = new FollowAction(_agent, roamDistance);
             FollowState.AddAction(followAction);
-            AddState(FollowState);
+            AddStateToList(FollowState);
         }
 
         private void BuildStayToFollowTransition()

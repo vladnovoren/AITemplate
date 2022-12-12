@@ -24,7 +24,7 @@ namespace AI.Common.Watch
         private void BuildIdleState()
         {
             IdleState = new State();
-            AddState(IdleState);
+            AddStateToList(IdleState);
             Entry = IdleState;
         }
 
@@ -33,7 +33,7 @@ namespace AI.Common.Watch
             WatchState = new State();
             var watchAction = new WatchAction(_agent, _enemy);
             WatchState.AddAction(watchAction);
-            AddState(WatchState);
+            AddStateToList(WatchState);
         }
 
         private void BuildIdleToWatchTransition(SpottingManager spottingManager)

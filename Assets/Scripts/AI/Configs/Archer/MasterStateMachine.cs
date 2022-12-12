@@ -3,6 +3,7 @@ using AI.Base;
 using AI.Configs.Archer.Fight;
 using AI.Common.Roam;
 using AI.Interaction;
+using Utils.Math;
 
 namespace AI.Configs.Archer
 {
@@ -12,7 +13,9 @@ namespace AI.Configs.Archer
                                   GameObject arrowPrefab, GameObject enemy,
                                   SpottingManager spottingManager)
         {
-            RoamStateMachine = new RoamStateMachine(agent);
+            RoamStateMachine = new RoamStateMachine(agent,
+                                                    new Range(1.0f, 1.0f),
+                                                    new Range(1.0f, 1.0f));
             FightStateMachine = new FightStateMachine(agent, firePoint, arrowPrefab, enemy);
             MergeCore(this, RoamStateMachine);
             MergeCore(this, FightStateMachine);

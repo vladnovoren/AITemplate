@@ -9,7 +9,7 @@ namespace AI.Base
             _states = new List<State>();
         }
         
-        public void AddState(State state)
+        public void AddStateToList(State state)
         {
             _states.Add(state);
         }
@@ -46,13 +46,13 @@ namespace AI.Base
         {
             foreach (var state in _states)
                 state.AddTransition(transition);
-            AddState(transition.TrueState);
+            AddStateToList(transition.TrueState);
         }
 
         protected static void MergeCore(StateMachine result, StateMachine operand)
         {
              foreach (var state in operand._states)
-                result.AddState(state);           
+                result.AddStateToList(state);           
         }
 
         protected readonly List<State> _states;

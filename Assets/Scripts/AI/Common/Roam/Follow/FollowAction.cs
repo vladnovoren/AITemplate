@@ -1,17 +1,16 @@
 ﻿using AI.Base;
 using UnityEngine.AI;
 using UnityEngine;
+using Utils.Math;
 
 namespace AI.Common.Roam
 {
     class FollowAction : AGameObjectBasedAction
     {
-        public FollowAction(GameObject gameObject, float minDeltaCoord,
-                        float maxDeltaCoord) :
+        public FollowAction(GameObject gameObject, Range distance) :
             base(gameObject)
         {
-            _minDeltaCoord = minDeltaCoord;
-            _maxDeltaCoord = maxDeltaCoord;
+            _distance = distance;
             _navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         }
 
@@ -34,11 +33,10 @@ namespace AI.Common.Roam
             var angle = Random.Range(0.0f, 360.0f);
             var dir = Quaternion.AngleAxis(angle, Vector3.up)
                       * Vector3.forward;
-            return dir * Random.Range(_minDeltaCoord, _maxDeltaCoord);
+            return dir * Random.Range(_distance.left, _distance.right);
         }
 
-        private float _minDeltaCoord;
-        private float _maxDeltaCoord;
+        private Range _distance;
 
         private NavMeshAgent _navMeshAgent;
     }

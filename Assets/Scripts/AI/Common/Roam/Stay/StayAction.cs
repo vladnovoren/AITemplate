@@ -1,5 +1,6 @@
 ﻿using AI.Base;
 using UnityEngine;
+using Utils.Math;
 using Utils.Time;
 
 namespace AI.Common.Roam
@@ -7,17 +8,16 @@ namespace AI.Common.Roam
     public class StayAction : AGameObjectBasedAction
     {
         public StayAction(GameObject gameObject, CountdownTimer timer,
-            float minTime, float maxTime) :
+                          Range stayTime) :
             base(gameObject)
         {
-            _minTime = minTime;
-            _maxTime = maxTime;
+            _stayTime = stayTime;
             _timer = timer;
         }
 
         public override void OnEnter()
         {
-            var dt = Random.Range(_minTime, _maxTime);
+            var dt = Random.Range(_stayTime.left, _stayTime.right);
             _timer.Restart(dt);
         }
 
@@ -26,8 +26,7 @@ namespace AI.Common.Roam
             _timer.Reset();
         }
 
-        private float _minTime;
-        private float _maxTime;
+        private Range _stayTime;
 
         private CountdownTimer _timer;
     }

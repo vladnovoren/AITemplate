@@ -9,11 +9,11 @@ namespace AI.Configs.Archer
         private void Awake()
         {
             Init();
-            BuildStateMachines();
         }
 
         private void Start()
         {
+            BuildStateMachines();
             _watchStateMachine.OnEntry();
             _masterStateMachine.OnEntry();
         }
@@ -36,7 +36,8 @@ namespace AI.Configs.Archer
         {
             var spottingManager = room.GetComponent<Room>().SpottingManager;
             _watchStateMachine = new WatchStateMachine(gameObject, enemy, spottingManager);
-            _masterStateMachine = new MasterStateMachine(gameObject, firePoint, arrowPrefab,
+            _masterStateMachine = new MasterStateMachine(gameObject, firePoint,
+                                                         arrowPrefab,
                                                          enemy, spottingManager);
         }
 
