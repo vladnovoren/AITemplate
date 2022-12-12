@@ -17,11 +17,6 @@ namespace AI.Base
             _timer.Restart(Random.Range(_timeRange.left, _timeRange.right));
         }
 
-        public override void OnExit()
-        {
-            _timer.Reset();
-        }
-
         private CountdownTimer _timer;
         private Range _timeRange;
     }

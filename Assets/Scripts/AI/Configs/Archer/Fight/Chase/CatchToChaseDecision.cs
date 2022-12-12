@@ -24,8 +24,6 @@ namespace AI.Configs.Archer.Fight.Chase
                                             _persecutorAgentTransform.position,
                                             _persecutorCatch.SqrValue) ||
                          _needToComeCloser;
-            Debug.Log("CatchToChaseDecision: " + result);
-            Debug.Log("_needToComeCloser: " + _needToComeCloser);
             _needToComeCloser = false;
             return result;
         }

@@ -63,16 +63,17 @@ namespace AI.Base
         }
         public State MakeTimeout(Range timeout)
         {
-            var entryState = new State();
+            var newEntryState = new State();
             var timer = new CountdownTimer();
             var restartTimerAction = new RestartTimerAction(timer, timeout);
-            entryState.AddAction(restartTimerAction);
-            entryState.AddTransition(new Transition(new TrueDecision(), EntryState));
+
+            newEntryState.AddAction(restartTimerAction);
+            newEntryState.AddTransition(new Transition(new TrueDecision(), EntryState));
 
             var exitState = new State();
             AddTransitionToAllStates(new Transition(new TimeoutDecision(timer), exitState));
 
-            EntryState = entryState;
+            EntryState = newEntryState;
             AddStateToList(EntryState);
 
             return exitState;

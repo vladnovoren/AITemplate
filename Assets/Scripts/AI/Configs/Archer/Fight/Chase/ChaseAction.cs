@@ -24,7 +24,6 @@ namespace AI.Configs.Archer.Fight.Chase
 
         public override void Execute()
         {
-            Debug.Log("ChaseAction.Execute()");
             if (NeedToChangePath())
                 SetDestinationToChased();
         }

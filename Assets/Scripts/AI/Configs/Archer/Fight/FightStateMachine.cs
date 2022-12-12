@@ -12,7 +12,6 @@ namespace AI.Configs.Archer.Fight
         public FightStateMachine(GameObject agent, GameObject firePoint,
                                  GameObject arrowPrefab, GameObject enemy)
         {
-            var timer = new CountdownTimer();
             _chaseStateMachine = new ChaseStateMachine(agent, firePoint,
                                                        arrowPrefab, enemy,
                                                        new Range(3, 4));
@@ -20,11 +19,11 @@ namespace AI.Configs.Archer.Fight
                                                       new Range(0, 0),
                                                       new Range(1, 2),
                                                       new Range(3, 4));
-            ConnectChaseAndDodge(timer);
+            ConnectChaseAndDodge();
             EntryState = _chaseStateMachine.EntryState;
         }
 
-        public void ConnectChaseAndDodge(CountdownTimer timer)
+        public void ConnectChaseAndDodge()
         {
             _chaseStateMachine.ExitState.AddTransition(
                 new Transition(new TrueDecision(),
