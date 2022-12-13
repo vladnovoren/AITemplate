@@ -1,8 +1,7 @@
 ﻿using AI.Base;
-using AI.Interaction;
 using System;
 
-namespace AI.Configs.Archer
+namespace AI.Interaction
 {
     public class RoamToFightDecision : ADecision
     {

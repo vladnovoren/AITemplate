@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using AI.Base;
-using AI.Configs.Archer.Fight.Stuff;
 using Utils.Math;
 
-namespace AI.Configs.Archer.Fight.Chase
+namespace AI.Common.Chase
 {
     public class ChaseStateMachine : StateMachine
     {

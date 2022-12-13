@@ -18,8 +18,9 @@ namespace AI.Configs.Swordsman.Fight
         public override bool Decide()
         {
             return Points.InOpenBall(_ownerTransform.position, _enemyTransform.position,
-                                     _catch.SqrValue)
-                   && Points.CheckObjectRaycast<PlayerTag>(new Ray(_ownerTransform.position, _ownerTransform.forward));
+                                     _catch.SqrValue) &&
+                   Points.CheckObjectRaycast<PlayerTag>(new Ray(_ownerTransform.position,
+                                                                   _ownerTransform.forward));
         }
 
         private readonly Transform _ownerTransform;
