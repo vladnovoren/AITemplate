@@ -17,20 +17,27 @@ namespace AI.Configs.Archer
             _movementNotifier = new MovementNotifier();
 
             RoamStateMachine = new RoamStateMachine(agent,
-                                                    new Range(1.0f, 1.0f),
-                                                    new Range(1.0f, 1.0f));
+                                                    new Range(1.0f, 2.0f),
+                                                    new Range(1.0f, 2.0f));
             FightStateMachine = new FightStateMachine(agent, firePoint, arrowPrefab,
                                                       enemy, _movementNotifier);
             MergeCore(this, RoamStateMachine);
             MergeCore(this, FightStateMachine);
-            var roamToFightDecision = new RoamToFightDecision(spottingManager);
-            var roamToFightTransition = new Transition(roamToFightDecision, FightStateMachine.EntryState);
-            RoamStateMachine.AddTransitionToAllStates(roamToFightTransition);
+
+            InitRoamToFightTransition(spottingManager);
+
             EntryState = RoamStateMachine.EntryState;
         }
 
         public RoamStateMachine RoamStateMachine { get; private set; }
         public FightStateMachine FightStateMachine { get; private set; }
+
+        private void InitRoamToFightTransition(SpottingManager spottingManager)
+        {
+            var roamToFightDecision = new RoamToFightDecision(spottingManager);
+            var roamToFightTransition = new Transition(roamToFightDecision, FightStateMachine.EntryState);
+            RoamStateMachine.AddTransitionToAllStates(roamToFightTransition);
+        }
 
         private MovementNotifier _movementNotifier;
     }

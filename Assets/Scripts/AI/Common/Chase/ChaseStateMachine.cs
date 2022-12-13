@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AI.Base;
-using Utils.Math;
 using AI.Common.Events;
 
 namespace AI.Common.Chase
@@ -8,18 +7,14 @@ namespace AI.Common.Chase
     public class ChaseStateMachine : StateMachine
     {
         public ChaseStateMachine(GameObject agent, GameObject enemy,
-                                 MovementNotifier movementNotifier,
-                                 Range timeout)
+                                 MovementNotifier movementNotifier)
         {
             InitStates(agent, enemy);
             InitTransitions(agent, enemy, movementNotifier);
-            ExitState = MakeTimeout(timeout);
         }
-
 
         public State ChaseState { get; private set; }
         public State CatchState { get; private set; }
-        public State ExitState { get; private set; }
 
         private void InitStates(GameObject agent,
                                 GameObject enemy)

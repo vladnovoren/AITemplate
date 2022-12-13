@@ -18,9 +18,9 @@ namespace AI.Configs.Archer.Fight
 
             attackAction.NeedToComeCloser += movementNotifier.DispatchNeedToComeCloser;
 
-            _chaseStateMachine = new ChaseStateMachine(agent, enemy,
-                                                       movementNotifier,
-                                                       new Range(3, 4));
+            _chaseStateMachine = new TimeoutChaseStateMachine(agent, enemy,
+                                                              movementNotifier,
+                                                              new Range(3, 4));
             _dodgeStateMachine = new DodgeStateMachine(agent,
                                                       new Range(0, 0),
                                                       new Range(1, 2),
@@ -49,12 +49,12 @@ namespace AI.Configs.Archer.Fight
                                                GameObject arrowPrefab,
                                                GameObject enemy)
         {
-            var arch = new Arch(1.0f, firePoint.transform, arrowPrefab);
+            var arch = new Arch(1.5f, firePoint.transform, arrowPrefab);
             var fighter = new Fighter(arch, enemy);
             return new AttackAction(fighter);
         }
 
-        private readonly ChaseStateMachine _chaseStateMachine;
+        private readonly TimeoutChaseStateMachine _chaseStateMachine;
         private readonly DodgeStateMachine _dodgeStateMachine;
     }
 }
