@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using Utils.Math;
 using AI.Base;
+using AI.Common.Chase;
+using AI.Common.Events;
 using AI.Configs.Archer.Fight.Dodge;
-using AI.Configs.Archer.Fight.Chase;
 using AI.Configs.Archer.Fight.Stuff;
 
 namespace AI.Configs.Archer.Fight
@@ -10,11 +11,15 @@ namespace AI.Configs.Archer.Fight
     public class FightStateMachine : StateMachine
     {
         public FightStateMachine(GameObject agent, GameObject firePoint,
-                                 GameObject arrowPrefab, GameObject enemy)
+                                 GameObject arrowPrefab, GameObject enemy,
+                                 MovementNotifier movementNotifier)
         {
             var attackAction = BuildAttackAction(firePoint, arrowPrefab, enemy);
+
+            attackAction.NeedToComeCloser += movementNotifier.DispatchNeedToComeCloser;
+
             _chaseStateMachine = new ChaseStateMachine(agent, enemy,
-                                                       attackAction,
+                                                       movementNotifier,
                                                        new Range(3, 4));
             _dodgeStateMachine = new DodgeStateMachine(agent,
                                                       new Range(0, 0),

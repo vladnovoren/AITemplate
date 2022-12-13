@@ -6,12 +6,7 @@ namespace AI.Common.Events
     {
         public event EventHandler NeedToComeCloser;
 
-        public void SubscribeToSource(EventHandler needToComeCloser)
-        {
-            needToComeCloser += OnNeedToComeCloser;
-        }
-
-        private void OnNeedToComeCloser(object sender, EventArgs args)
+        public void DispatchNeedToComeCloser(object sender, EventArgs args)
         {
             NeedToComeCloser?.Invoke(sender, args);
         }

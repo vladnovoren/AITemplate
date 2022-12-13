@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using AI.Base;
 using Utils.Math;
+using AI.Common.Events;
 
 namespace AI.Common.Chase
 {
     public class ChaseStateMachine : StateMachine
     {
         public ChaseStateMachine(GameObject agent, GameObject enemy,
-                                 AttackAction attackAction,
+                                 MovementNotifier movementNotifier,
                                  Range timeout)
         {
             InitStates(agent, enemy);
-            InitTransitions(agent, enemy, attackAction);
+            InitTransitions(agent, enemy, movementNotifier);
             ExitState = MakeTimeout(timeout);
         }
 
@@ -43,17 +44,17 @@ namespace AI.Common.Chase
         }
 
         private void InitTransitions(GameObject agent, GameObject enemy,
-                                     AttackAction attackAction)
+                                     MovementNotifier movementNotifier)
         {
-            var catchToChaseDecision = InitCatchToChaseTransition(agent, enemy, attackAction);
+            var catchToChaseDecision = InitCatchToChaseTransition(agent, enemy, movementNotifier);
             InitChaseToCatchTransition(catchToChaseDecision);
         }
 
         private CatchToChaseDecision InitCatchToChaseTransition(GameObject agent,
                                                                 GameObject enemy,
-                                                                AttackAction attackAction)
+                                                                MovementNotifier movementNotifier)
         {
-            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, attackAction);
+            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, movementNotifier);
             var catchToChaseTransition = new Transition(catchToChaseDecision, ChaseState);
             CatchState.AddTransition(catchToChaseTransition);
             return catchToChaseDecision;
