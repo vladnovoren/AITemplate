@@ -5,6 +5,7 @@ using AI.Common.Chase;
 using AI.Common.Events;
 using AI.Configs.Archer.Fight.Dodge;
 using AI.Configs.Archer.Fight.Stuff;
+using AI.Common.Animations;
 
 namespace AI.Configs.Archer.Fight
 {
@@ -32,6 +33,8 @@ namespace AI.Configs.Archer.Fight
             EntryState = _chaseStateMachine.EntryState;
         }
 
+        public State AttackAnimationState { get; private set; }
+
         public void ConnectChaseAndDodge()
         {
             _chaseStateMachine.ExitState.AddTransition(
@@ -52,6 +55,17 @@ namespace AI.Configs.Archer.Fight
             var arch = new Arch(1.5f, firePoint.transform, arrowPrefab);
             var fighter = new Fighter(arch, enemy);
             return new AttackAction(fighter);
+        }
+
+        private void BuildAttackAnimationState()
+        {
+            AttackAnimationState = new State();
+        }
+
+        private void BuildAttackAnimationTransitions()
+        {
+            var toDecision = new ToMutingAnimationDecision();
+            toDecision.OnAnimationStarted;
         }
 
         private readonly TimeoutChaseStateMachine _chaseStateMachine;

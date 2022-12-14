@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AI.Base.FSM;
+using System;
 
 namespace AI.Base
 {
@@ -27,11 +28,16 @@ namespace AI.Base
             return false;
         }
 
-        public event EventHandler Accepted;
+        public event EventHandler<TransitionAcceptedArgs> Accepted;
 
         public void OnAccepted()
         {
-            Accepted?.Invoke(this, EventArgs.Empty);
+            Accepted?.Invoke(this, new TransitionAcceptedArgs(TrueState));
+        }
+
+        public void SwitchToSourceState(object sender, TransitionAcceptedArgs newTrueState)
+        {
+            TrueState = newTrueState.TrueState;
         }
 
         public State TrueState { get; private set; }
