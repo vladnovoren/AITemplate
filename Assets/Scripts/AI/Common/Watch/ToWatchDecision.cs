@@ -10,7 +10,7 @@ namespace AI.Common.Watch
                                SpottingManager spottingManager) :
             base(owner, enemy)
         {
-            spottingManager.SubscribeToWatcher(this);
+            EnemySpotted += spottingManager.DispatchEnemySpotted;
         }
 
         public override bool Decide()

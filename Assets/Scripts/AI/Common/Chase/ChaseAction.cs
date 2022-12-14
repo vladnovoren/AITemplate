@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Utils.Math;
 
-namespace AI.Configs.Archer.Fight.Chase
+namespace AI.Common.Chase
 {
     public class ChaseAction : AGameObjectBasedAction
     {

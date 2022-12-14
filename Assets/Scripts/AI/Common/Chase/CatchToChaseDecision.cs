@@ -4,18 +4,19 @@ using AI.Base;
 using Utils.Math;
 using System;
 using AI.Common.Components;
+using AI.Common.Events;
 
-namespace AI.Configs.Archer.Fight.Chase
+namespace AI.Common.Chase
 {
     public class CatchToChaseDecision : ADecision
     {
         public CatchToChaseDecision(GameObject persecutor, GameObject target,
-                                    AttackAction attackAction)
+                                    MovementNotifier movementNotifier)
         {
             _persecutorCatch = persecutor.GetComponent<Catch>();
             _persecutorAgentTransform = persecutor.GetComponent<NavMeshAgent>().transform;
             _targetTransform = target.transform;
-            attackAction.NeedToComeCloser += OnNeedToComeCloser;
+            movementNotifier.NeedToComeCloser += OnNeedToComeCloser;
         }
 
         public override bool Decide()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using AI.Common.Watch;
 using AI.Common.Components;
+using AI.Common.Events;
 
 namespace AI.Configs.Archer
 {
@@ -34,11 +35,13 @@ namespace AI.Configs.Archer
 
         private void BuildStateMachines()
         {
+            var animationNotifier = new AnimationNotifier();
             var spottingManager = room.GetComponent<Room>().SpottingManager;
             _watchStateMachine = new WatchStateMachine(gameObject, enemy, spottingManager);
             _masterStateMachine = new MasterStateMachine(gameObject, firePoint,
                                                          arrowPrefab,
-                                                         enemy, spottingManager);
+                                                         enemy, spottingManager,
+                                                         animationNotifier);
         }
 
         [SerializeField] private GameObject enemy;

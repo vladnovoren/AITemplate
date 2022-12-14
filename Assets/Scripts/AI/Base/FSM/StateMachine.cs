@@ -47,19 +47,7 @@ namespace AI.Base
         public void AddTransitionToAllStates(Transition transition)
         {
             foreach (var state in _states)
-                state.AddTransition(new Transition(transition));
-        }
-
-        public void AddTransitionToAllStatesWithBack(Transition transition)
-        {
-            foreach (var state in _states)
-            {
-                var forwardTransition = new Transition(transition);
-                var backTransition = new Transition(new BackDecision(forwardTransition),
-                                                    state);
-                state.AddTransition(forwardTransition);
-                forwardTransition.TrueState.AddTransition(backTransition);
-            }
+                state.AddTransition(transition);
         }
 
         public void AddActionToAllStates(AAction action)

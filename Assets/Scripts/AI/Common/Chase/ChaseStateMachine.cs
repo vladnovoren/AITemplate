@@ -1,25 +1,20 @@
 ﻿using UnityEngine;
 using AI.Base;
-using AI.Configs.Archer.Fight.Stuff;
-using Utils.Math;
+using AI.Common.Events;
 
-namespace AI.Configs.Archer.Fight.Chase
+namespace AI.Common.Chase
 {
     public class ChaseStateMachine : StateMachine
     {
         public ChaseStateMachine(GameObject agent, GameObject enemy,
-                                 AttackAction attackAction,
-                                 Range timeout)
+                                 MovementNotifier movementNotifier)
         {
             InitStates(agent, enemy);
-            InitTransitions(agent, enemy, attackAction);
-            ExitState = MakeTimeout(timeout);
+            InitTransitions(agent, enemy, movementNotifier);
         }
-
 
         public State ChaseState { get; private set; }
         public State CatchState { get; private set; }
-        public State ExitState { get; private set; }
 
         private void InitStates(GameObject agent,
                                 GameObject enemy)
@@ -44,17 +39,17 @@ namespace AI.Configs.Archer.Fight.Chase
         }
 
         private void InitTransitions(GameObject agent, GameObject enemy,
-                                     AttackAction attackAction)
+                                     MovementNotifier movementNotifier)
         {
-            var catchToChaseDecision = InitCatchToChaseTransition(agent, enemy, attackAction);
+            var catchToChaseDecision = InitCatchToChaseTransition(agent, enemy, movementNotifier);
             InitChaseToCatchTransition(catchToChaseDecision);
         }
 
         private CatchToChaseDecision InitCatchToChaseTransition(GameObject agent,
                                                                 GameObject enemy,
-                                                                AttackAction attackAction)
+                                                                MovementNotifier movementNotifier)
         {
-            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, attackAction);
+            var catchToChaseDecision = new CatchToChaseDecision(agent, enemy, movementNotifier);
             var catchToChaseTransition = new Transition(catchToChaseDecision, ChaseState);
             CatchState.AddTransition(catchToChaseTransition);
             return catchToChaseDecision;
