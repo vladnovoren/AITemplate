@@ -1,15 +1,17 @@
 ﻿using System;
-using UnityEngine;
 
-namespace AI.Base.FSM
+namespace AI.Base
 {
     public class TransitionAcceptedArgs : EventArgs
     {
-        public TransitionAcceptedArgs(State trueState)
+        public TransitionAcceptedArgs(State srcState,
+                                      State dstState)
         {
-            TrueState = trueState;
+            SrcState = srcState;
+            DstState = dstState;
         }
 
-        public State TrueState;
+        public State SrcState;
+        public State DstState;
     }
 }

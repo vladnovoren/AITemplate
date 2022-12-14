@@ -12,7 +12,8 @@ namespace AI.Configs.Archer
     {
         public MasterStateMachine(GameObject agent, GameObject firePoint,
                                   GameObject arrowPrefab, GameObject enemy,
-                                  SpottingManager spottingManager)
+                                  SpottingManager spottingManager,
+                                  AnimationNotifier animationNotifier)
         {
             _movementNotifier = new MovementNotifier();
 
@@ -20,7 +21,8 @@ namespace AI.Configs.Archer
                                                     new Range(1.0f, 2.0f),
                                                     new Range(1.0f, 2.0f));
             FightStateMachine = new FightStateMachine(agent, firePoint, arrowPrefab,
-                                                      enemy, _movementNotifier);
+                                                      enemy, _movementNotifier,
+                                                      animationNotifier);
             MergeCore(this, RoamStateMachine);
             MergeCore(this, FightStateMachine);
 

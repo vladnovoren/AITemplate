@@ -13,7 +13,8 @@ namespace AI.Configs.Archer.Fight
     {
         public FightStateMachine(GameObject agent, GameObject firePoint,
                                  GameObject arrowPrefab, GameObject enemy,
-                                 MovementNotifier movementNotifier)
+                                 MovementNotifier movementNotifier,
+                                 AnimationNotifier animationNotifier)
         {
             var attackAction = BuildAttackAction(firePoint, arrowPrefab, enemy);
 
@@ -30,6 +31,7 @@ namespace AI.Configs.Archer.Fight
             MergeCore(this, _chaseStateMachine);
             MergeCore(this, _dodgeStateMachine);
             AddActionToAllStates(attackAction);
+            BuildAttackAnimationState(animationNotifier);
             EntryState = _chaseStateMachine.EntryState;
         }
 
@@ -57,15 +59,24 @@ namespace AI.Configs.Archer.Fight
             return new AttackAction(fighter);
         }
 
-        private void BuildAttackAnimationState()
+        private void BuildAttackAnimationState(AnimationNotifier animationNotifier)
         {
             AttackAnimationState = new State();
+            BuildAttackAnimationTransitions(animationNotifier);
         }
 
-        private void BuildAttackAnimationTransitions()
+        private void BuildAttackAnimationTransitions(AnimationNotifier animationNotifier)
         {
             var toDecision = new ToMutingAnimationDecision();
-            toDecision.OnAnimationStarted;
+            animationNotifier.AttackAnimationStarted += toDecision.OnAnimationStarted;
+
+            var fromDecision = new FromMutingAnimationDecision();
+            animationNotifier.AttackAnimationFinished += fromDecision.OnAnimationFinished;
+
+            var toTransition = new Transition(toDecision, AttackAnimationState);
+            var fromTransition = new Transition(fromDecision, toTransition);
+            AddTransitionToAllStates(toTransition);
+            AttackAnimationState.AddTransition(fromTransition);
         }
 
         private readonly TimeoutChaseStateMachine _chaseStateMachine;

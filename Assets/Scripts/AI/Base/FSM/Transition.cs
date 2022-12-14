@@ -1,5 +1,4 @@
-﻿using AI.Base.FSM;
-using System;
+﻿using System;
 
 namespace AI.Base
 {
@@ -9,6 +8,12 @@ namespace AI.Base
         {
             _decision = decision;
             TrueState = trueState;
+        }
+
+        public Transition(ADecision decision, Transition forwardTransition)
+        {
+            _decision = decision;
+            forwardTransition.Accepted += SwitchToSourceState;
         }
 
         public Transition(Transition other)
@@ -21,8 +26,9 @@ namespace AI.Base
         {
             if (_decision.Decide())
             {
+                var srcState = stateMachine.CurrentState;
                 stateMachine.CurrentState = TrueState;
-                OnAccepted();
+                OnAccepted(srcState, TrueState);
                 return true;
             }
             return false;
@@ -30,14 +36,14 @@ namespace AI.Base
 
         public event EventHandler<TransitionAcceptedArgs> Accepted;
 
-        public void OnAccepted()
+        public void OnAccepted(State srcState, State dstState)
         {
-            Accepted?.Invoke(this, new TransitionAcceptedArgs(TrueState));
+            Accepted?.Invoke(this, new TransitionAcceptedArgs(srcState, dstState));
         }
 
-        public void SwitchToSourceState(object sender, TransitionAcceptedArgs newTrueState)
+        public void SwitchToSourceState(object sender, TransitionAcceptedArgs args)
         {
-            TrueState = newTrueState.TrueState;
+            TrueState = args.SrcState;
         }
 
         public State TrueState { get; private set; }
