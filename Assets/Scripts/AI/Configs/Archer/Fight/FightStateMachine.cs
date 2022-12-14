@@ -63,6 +63,7 @@ namespace AI.Configs.Archer.Fight
         {
             AttackAnimationState = new State();
             BuildAttackAnimationTransitions(animationNotifier);
+            AddStateToList(AttackAnimationState);
         }
 
         private void BuildAttackAnimationTransitions(AnimationNotifier animationNotifier)

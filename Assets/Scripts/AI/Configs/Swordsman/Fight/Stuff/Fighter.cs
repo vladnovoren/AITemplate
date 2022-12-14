@@ -3,7 +3,7 @@ using Utils.Time;
 using Lifetime;
 using Utils.Math;
 
-namespace AI.Configs.Swordsman.Fight
+namespace AI.Configs.Swordsman.Fight.Stuff
 {
     public class Fighter
     {

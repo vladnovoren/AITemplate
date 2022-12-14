@@ -11,12 +11,14 @@ namespace AI.Configs.Swordsman
     public class MasterStateMachine : StateMachine
     {
         public MasterStateMachine(GameObject agent, GameObject enemy,
-                                  SpottingManager spottingManager)
+                                  SpottingManager spottingManager,
+                                  AnimationNotifier animationNotifier)
         {
             var movementNotifier = new MovementNotifier();
 
             RoamStateMachine = new RoamStateMachine(agent, new Range(1, 2), new Range(1, 2));
-            FightStateMachine = new FightStateMachine(agent, movementNotifier, enemy);
+            FightStateMachine = new FightStateMachine(agent, movementNotifier,
+                                                      animationNotifier, enemy);
 
             MergeCore(this, RoamStateMachine);
             MergeCore(this, FightStateMachine);
@@ -29,10 +31,10 @@ namespace AI.Configs.Swordsman
         private void InitRoamToFightTransition(SpottingManager spottingManager)
         {
             var roamToFightDecision = new RoamToFightDecision(spottingManager);
-            var roamToFightTransition = new Transition(roamToFightDecision, EntryState);
+            var roamToFightTransition = new Transition(roamToFightDecision,
+                                                       FightStateMachine.EntryState);
             RoamStateMachine.AddTransitionToAllStates(roamToFightTransition);
         }
-
 
         private RoamStateMachine RoamStateMachine;
         private FightStateMachine FightStateMachine;
